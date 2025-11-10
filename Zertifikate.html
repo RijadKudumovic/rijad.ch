@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zertifikate</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: url('background.gif') no-repeat center center fixed; /* Dein Hintergrund-GIF */
+      background-size: cover;
+      color: white;
+    }
+
+     /* 🎞️ Hintergrund-GIF */
+    body {
+      background: url("ZertifikatHintergrund.gif") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+        /* Halbtransparente Overlay für bessere Lesbarkeit */
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Zurück-Pfeil */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 32px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: color 0.3s;
+    }
+
+    .back-arrow:hover {
+      color: #5f5f5f;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 40px;
+      margin-top: 60px;
+    }
+
+    .zertifikate-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .zertifikat {
+      background-color: rgba(0, 179, 255, 0.15);
+      border: 2px solid #00b3ff;
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .zertifikat:hover {
+      background-color: rgba(0, 179, 255, 0.3);
+    }
+
+    .buttons {
+      margin-top: 15px;
+    }
+
+    .btn {
+      background-color: #00b3ff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0090cc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      color: white;
+      border-top: 1px solid #000000;
+      margin-top: 50px;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <a href="index.html" class="back-arrow">←</a>
+
+    <h1>Meine Zertifikate</h1>
+
+    <div class="zertifikate-container">
+
+    
+      <div class="zertifikat">
+        <h2>Schulzeugnis 2024/2025</h2>
+        <div class="buttons">
+          <a href="rijad_S2C_Zeugnis.pdf" target="_blank" class="btn">Ansehen</a>
+          <a href="rijad_S2C_Zeugnis.pdf" download class="btn">Download</a>
+        </div>
+      </div>
+
+      <!-- Beispiel 2 -->
+      <div class="zertifikat">
+        <h2>Sprachzertifikat English B2</h2>
+        <div class="buttons">
+          <a href="Cambridge Certifikat Rijad.pdf" target="_blank" class="btn">Ansehen</a>
+          <a href="Cambridge Certifikat Rijad.pdf" download class="btn">Download</a>
+        </div>
+      </div>
+
+      <!-- Beispiel 3 -->
+      <div class="zertifikat">
+        <h2>Check S2</h2>
+        <div class="buttons">
+          <a href="Teilzertifikat.pdf" target="_blank" class="btn">Ansehen</a>
+          <a href="Teilzertifikat.pdf" download class="btn">Download</a>
+        </div>
+      </div>
+
+       <!-- Beispiel 4 -->
+      <div class="zertifikat">
+        <h2>ICT-Multicheck</h2>
+        <div class="buttons">
+          <a href="Multicheck Rijad.pdf" target="_blank" class="btn">Ansehen</a>
+          <a href="Multicheck Rijad.pdf" download class="btn">Download</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>© 2025 Rijad Kudumovic</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rijad Kudumovic</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* 🎞️ Hintergrund-GIF */
+    body {
+      background: url("hintergrund.gif") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* Halbtransparente Overlay für bessere Lesbarkeit */
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* Pfeil oben links */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 32px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: color 0.3s;
+      z-index: 2;
+    }
+
+    .back-arrow:hover {
+      color: #99ccff;
+    }
+
+    /* Bild */
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px; /* kein Kreis */
+      border: 4px solid #ffffff;
+      margin-bottom: 20px;
+    }
+
+    /* Name */
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 10px 0 30px 0;
+    }
+
+    /* Themen-Links */
+    .topics a {
+      display: inline-block;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: bold;
+      margin: 10px 20px;
+      padding: 10px 20px;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .topics a:hover {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    /* Footer unten */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #dddddd;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Zurück-Pfeil -->
+  <a href= "Index.html".html class="back-arrow">←</a>
+
+  <!-- Hauptinhalt -->
+  <div class="overlay">
+    <img src="bild.jpg" alt="Rijad Kudumovic" />
+    <h1>Rijad Kudumovic</h1>
+    <div class="topics">
+      <a href="AllgemeineInfos.html">Allgemeine Infos</a>
+      <a href="interessen.html">Interessen</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>© 2025 Rijad Kudumovic</footer>
+
+</body>
+</html>

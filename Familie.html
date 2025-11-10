@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Familie</title>
+  <style>
+    :root {
+      --accent: #f3f3f3;
+      --overlay: rgba(0,0,0,0.6);
+      --card-bg: rgba(0,0,0,0.45);
+      --text: #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: url('FamilienHintergrund.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text);
+    }
+
+    .overlay {
+      min-height: 100vh;
+      width: 100%;
+      background: var(--overlay);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 28px 16px 60px;
+      box-sizing: border-box;
+    }
+
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 30px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .back-arrow:hover {
+      color: #848484;
+    }
+
+    h1 {
+      margin-top: 60px;
+      font-size: 40px;
+    }
+
+    .intro {
+      width: 100%;
+      max-width: 820px;
+      background: var(--card-bg);
+      border: 2px solid rgba(0,179,255,0.15);
+      padding: 16px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .photo-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid rgba(0,179,255,0.15);
+      background: #111;
+      margin-top: 30px;
+    }
+
+    .photo-wrap img.family {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      background: rgba(92, 92, 92, 0.674);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(2px);
+    }
+
+    .hotspot:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      background: rgba(93, 93, 93, 0.247);
+    }
+
+    .hotspot .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: auto;
+    }
+
+    .person-preview {
+      position: absolute;
+      width: 200px;
+      height: 150px;
+      border-radius: 15px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transform: translate(-50%, -30%) scale(0.95);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 20;
+      border: 2px solid rgb(0, 0, 0);
+    }
+
+    .person-preview.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .info-card {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.75);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid rgba(0,179,255,0.15);
+      text-align: center;
+      width: 220px;
+      transform: translate(-50%, 80px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .info-card.visible {
+      opacity: 1;
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #ccc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <a class="back-arrow" href="index.html">←</a>
+    <h1>Familie</h1>
+
+    <div class="intro">
+      <p>Bewege die Maus über die Gesichter im Foto, um mehr über die Personen zu erfahren.</p>
+    </div>
+
+    <div class="photo-wrap" id="photoWrap">
+      <img src="Familie.jpg" alt="Familienfoto" class="family" />
+
+      <!-- Hotspots -->
+      <button class="hotspot" style="left:52%; top:15%;"
+        data-image="vater.jpg"
+        data-info="Vater: Ivo — Handwerklich, immer Hilfsarbeiter, ist ein komiker.">
+        <span class="dot"></span>
+      </button>
+
+      <button class="hotspot" style="left:80%; top:13%;"
+        data-image="mutter.jpg"
+        data-info="Mutter: Meliha — liebt Kochen und Mode.">
+        <span class="dot"></span>
+      </button>
+
+      <button class="hotspot" style="left:82%; top:23%;"
+        data-image="Tarik.jpg"
+        data-info="Bruder: Tarik — Sympathisch und Lustig.">
+        <span class="dot"></span>
+      </button>
+
+     <button class="hotspot" style="left:50%; top:43%;"
+        data-image="Kenan.jpg"
+        data-info="Bruder: Kenan — kreativ und sportlich.">
+        <span class="dot"></span>
+     </button>
+
+           <button class="hotspot" style="left:60%; top:65%;"
+        data-image="Petar.jpg"
+        data-info="Bruder: Petar — Klein aber fein.">
+        <span class="dot"></span>
+      </button>
+
+     <button class="hotspot" style="left:51%; top:26%;"
+        data-image="Rijad.jpg"
+        data-info="Ich: Rijad — Technik und Gadget Liebhaber.">
+        <span class="dot"></span>
+      </button>
+
+      <!-- Vorschau-Container -->
+      <div id="preview" class="person-preview"></div>
+      <div id="info" class="info-card"></div>
+    </div>
+
+    <footer>© 2025 Rijad Kudumovic</footer>
+  </div>
+
+  <script>
+    const hotspots = document.querySelectorAll('.hotspot');
+    const preview = document.getElementById('preview');
+    const info = document.getElementById('info');
+    const photoWrap = document.getElementById('photoWrap');
+
+    hotspots.forEach(hs => {
+      hs.addEventListener('mouseenter', () => {
+        const imgSrc = hs.dataset.image;
+        const text = hs.dataset.info;
+
+        preview.style.backgroundImage = `url('${imgSrc}')`;
+        preview.style.left = hs.style.left;
+        preview.style.top = hs.style.top;
+        preview.classList.add('visible');
+
+        info.textContent = text;
+        info.style.left = hs.style.left;
+        info.style.top = hs.style.top;
+        info.classList.add('visible');
+      });
+
+      hs.addEventListener('mouseleave', () => {
+        preview.classList.remove('visible');
+        info.classList.remove('visible');
+      });
+    });
+  </script>
+</body>
+</html>
