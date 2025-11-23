@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Moleküle – Einfach erklärt</title>
+
+<style>
+    :root{
+        --bg:#0d1b2a;
+        --bg2:#112233;
+        --txt:#e6f2ff;
+        --accent:#4dd9ff;
+        --accent2:#7af0d8;
+        --card:#13293d;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter",sans-serif;}
+
+    body{
+        background:linear-gradient(180deg,var(--bg),#0a1622);
+        color:var(--txt);
+        line-height:1.6;
+    }
+
+    header{
+        text-align:center;
+        padding:60px 20px 40px;
+        position:relative;
+        overflow:hidden;
+    }
+
+    header h1{
+        font-size:42px;
+        margin-bottom:10px;
+        color:var(--accent);
+        text-shadow:0 0 18px rgba(77,217,255,0.4);
+        animation:titleFadeIn 1.7s ease forwards;
+        opacity:0;
+    }
+    header p{
+        font-size:18px;
+        opacity:0;
+        animation:fadeIn 1.5s ease forwards;
+        animation-delay:0.4s;
+    }
+
+    @keyframes titleFadeIn{
+        0%{ transform:translateY(-30px); opacity:0 }
+        100%{ transform:translateY(0); opacity:1 }
+    }
+    @keyframes fadeIn{
+        0%{ opacity:0 }
+        100%{ opacity:1 }
+    }
+
+    /* Animated background text effect */
+    .bg-text{
+        position:absolute;
+        top:0;left:0;
+        width:100%;height:100%;
+        overflow:hidden;
+        pointer-events:none;
+        opacity:0.07;
+        font-weight:800;
+        font-size:80px;
+        color:var(--accent);
+        animation:bgFlow 14s linear infinite alternate;
+        white-space:nowrap;
+    }
+    @keyframes bgFlow{
+        0%{ transform:translateX(-20%) }
+        100%{ transform:translateX(20%) }
+    }
+
+    section{
+        max-width:1000px;
+        margin:50px auto;
+        padding:20px;
+    }
+
+    h2{
+        font-size:32px;
+        color:var(--accent2);
+        margin-bottom:12px;
+        text-shadow:0 0 14px rgba(122,240,216,0.25);
+    }
+
+    .card{
+        background:var(--card);
+        border-radius:14px;
+        padding:20px;
+        margin:18px 0;
+        border:1px solid rgba(255,255,255,0.05);
+        box-shadow:0 6px 25px rgba(0,0,0,0.35);
+        transition:transform .2s ease, box-shadow .2s ease;
+        opacity:0;
+        transform:translateY(20px);
+    }
+    .card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 12px 40px rgba(0,0,0,0.55);
+    }
+
+    /* scroll reveal effect */
+    .reveal{
+        opacity:0;
+        transform:translateY(40px);
+        transition:opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+    .molecule-img{
+        width:100%;
+        max-width:360px;
+        border-radius:12px;
+        margin:14px 0;
+        box-shadow:0 6px 20px rgba(0,0,0,0.45);
+        transition:transform .25s ease;
+    }
+    .molecule-img:hover{
+        transform:scale(1.04);
+    }
+
+    footer{
+        text-align:center;
+        padding:30px;
+        color:#aac7dd;
+        opacity:0.6;
+        margin-top:40px;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="bg-text">MOLEKÜLE • MOLEKÜLE • MOLEKÜLE • MOLEKÜLE</div>
+    <h1>Moleküle – einfach erklärt</h1>
+    <p>Die Grundlage aller Stoffe, Formen und Reaktionen in unserer Welt.</p>
+</header>
+
+<section>
+
+    <!-- SECTION 1 -->
+    <div class="card reveal">
+        <h2>Was sind Moleküle?</h2>
+        <p>Moleküle sind Zusammenschlüsse von zwei oder mehr Atomen, die durch chemische Bindungen miteinander verbunden sind.  
+        Sie sind die kleinste Einheit eines Stoffes, die noch alle Eigenschaften dieses Stoffes besitzt.</p>
+        <img src="h20 bild.png" class="molecule-img" alt="Wassermolekül Beispiel">
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card reveal">
+        <h2>Wie entstehen Moleküle?</h2>
+        <p>Atoms verbinden sich, um stabiler zu werden. Die häufigste Form sind <b>kovalente Bindungen</b>, bei denen sich Atome Elektronen teilen.
+        Manchmal geben Atome Elektronen ab oder nehmen sie auf, dann entstehen <b>Ionenbindungen</b>.</p>
+        <img src="NACL Ionen.jpg" class="molecule-img" alt="Ionenbindung Beispiel">
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card reveal">
+        <h2>Warum sind Moleküle wichtig?</h2>
+        <ul>
+            <li>Sie bestimmen den Aufbau aller Materialien</li>
+            <li>Sie sind verantwortlich für chemische Reaktionen</li>
+            <li>Sie bilden die Grundlage von Leben (DNA, Proteine, Wasser)</li>
+            <li>Sie beeinflussen Temperatur, Geschmack, Geruch und Farbe</li>
+        </ul>
+        <img src="DNA.jpg" class="molecule-img" alt="DNA Beispiel">
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card reveal">
+        <h2>Beispiele bekannter Moleküle</h2>
+        <p>Einige Moleküle begegnen dir jeden Tag:</p>
+        <ul>
+            <li><b>H₂O</b> – Wasser</li>
+            <li><b>CO₂</b> – Kohlenstoffdioxid</li>
+            <li><b>O₂</b> – Sauerstoff</li>
+            <li><b>CH₄</b> – Methan</li>
+            <li><b>C₆H₁₂O₆</b> – Traubenzucker</li>
+        </ul>
+        <img src="Co2 molekule.png" class="molecule-img" alt="CO₂ Beispiel">
+    </div>
+
+</section>
+
+<footer>
+    © 2025 Molekül-Projekt
+</footer>
+
+<script>
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+
+    function checkReveal(){
+        const triggerBottom = window.innerHeight * 0.85;
+
+        revealElements.forEach(el=>{
+            const top = el.getBoundingClientRect().top;
+            if(top < triggerBottom){
+                el.classList.add('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', checkReveal);
+    window.addEventListener('load', checkReveal);
+</script>
+
+</body>
+</html>
