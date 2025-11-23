@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Warum sollten Sie mich nehmen?</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #ffffff;
+      background: url('Warumhintergrund.gif') no-repeat center center fixed; /* Hintergrund-GIF */
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      width: 100%;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Pfeil oben links */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 32px;
+      text-decoration: none;
+      color: #0077ff;
+      transition: color 0.3s;
+    }
+    .back-arrow:hover {
+      color: #0039ab;
+    }
+
+    /* Hauptcontainer */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 100px;
+      max-width: 800px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    /* Titel mit korrigierter Animation */
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: titlePopIn 2.2s ease-out forwards;
+    }
+
+ @keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Textbereich */
+.textbereich {
+  font-size: 20px;
+  line-height: 1.6;
+  text-align: left;
+  width: 100%;
+  border: 2px solid #003e8e;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #ffffff;
+  margin-bottom: 40px;
+  background-color: rgba(0, 0, 0, 0.4);
+  animation: fadeIn 2.5s ease-in forwards; /* <— 'forwards' behalten */
+  animation-delay: 0.8s; /* <— Delay separat setzen */
+}
+
+
+    /* Bildbereich mit sanfter Animation */
+    .bildbereich {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .bildbereich img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 12px;
+      border: 2px solid #005fbe;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 1.8s ease-out forwards 1.2s;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid #003a81;
+    }
+
+    /* Animationen */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Titel-Pop-In (korrigiert) */
+    @keyframes titlePopIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(0) scale(1.05);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <!-- Zurück-Pfeil -->
+    <a href="index.html" class="back-arrow">←</a>
+
+    <!-- Hauptinhalt -->
+    <div class="container">
+      <h1>Warum sollten Sie mich nehmen?</h1>
+
+      <div class="textbereich">
+        <p>
+          Ich bin motiviert, zuverlässig und bereit, Neues zu lernen.  
+          Ich möchte meine Fähigkeiten weiterentwickeln und aktiv zum Team beitragen.  
+          Mir ist es wichtig, nicht nur gute Arbeit zu leisten, sondern auch Verantwortung zu übernehmen und mich stetig zu verbessern.
+        </p>
+        <p>
+          Besonders interessiere ich mich für Technik, Computer und das Programmieren. Themen, bei denen ich gerne Probleme löse und kreative Lösungen finde.  
+          Ich gebe nicht auf, wenn etwas schwierig ist, sondern sehe es als Chance, zu wachsen.
+        </p>
+        <p>
+          Ich bin überzeugt, dass ich durch meine Lernbereitschaft, Motivation und Neugier ein wertvoller Teil Ihres Teams werden kann.
+        </p>
+      </div>
+
+      <div class="bildbereich">
+        <img src="Warumbild2.jfif" alt="Motivation Bild" />
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>© 2025 Rijad Kudumovic</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<<<<<<< Updated upstream
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moleküle – Informationen</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #131b2f;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 2px solid #00e0ff;
+    }
+
+    header h1 {
+      font-size: 40px;
+      margin: 0;
+      letter-spacing: 2px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00e0ff; }
+      to { text-shadow: 0 0 25px #00e0ff; }
+    }
+
+    .content {
+      padding: 40px 10%;
+    }
+
+    .molecule-card {
+      background: #111827;
+      border: 1px solid #00e0ff;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+      transition: transform 0.3s;
+    }
+
+    .molecule-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .molecule-card h2 {
+      margin-top: 0;
+      color: #00e0ff;
+    }
+
+    .molecule-img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      display: block;
+      margin: 20px 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      padding: 20px;
+      background: #131b2f;
+      border-top: 2px solid #00e0ff;
+      color: #aaa;
+    }
+    
+    /* Scroll Animation */
+    .molecule-card { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+    .molecule-card.visible { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+  <header>
+    <h1>Moleküle – ausführliche Informationen</h1>
+  </header>
+
+  <div class="content">
+
+    <div class="molecule-card">
+      <h2>Wasser (H₂O)</h2>
+      <img src="h20 bild.png" alt="Wassermolekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Wasser besteht aus zwei Wasserstoffatomen und einem Sauerstoffatom. Die typische gewinkelte Struktur führt zu einzigartigen Eigenschaften wie Oberflächenspannung und hoher Wärmekapazität.</p>
+      <p><strong>Vorkommen:</strong> Ozeane, Atmosphäre, Lebewesen</p>
+      <p><strong>Besonderheiten:</strong> Wasser ist das wichtigste Lösungsmittel der Erde.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Kohlenstoffdioxid (CO₂)</h2>
+      <img src="co2 bild.png" alt="CO₂ Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> CO₂ besteht aus einem Kohlenstoffatom und zwei Sauerstoffatomen. Die Struktur ist linear und symmetrisch.</p>
+      <p><strong>Vorkommen:</strong> Atmosphäre, vulkanische Gase, Zellatmung</p>
+      <p><strong>Besonderheiten:</strong> Wichtig für den Treibhauseffekt und Photosynthese.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Methan (CH₄)</h2>
+      <img src="ch4 bild.jpg" alt="Methan Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Methan besteht aus einem Kohlenstoffatom und vier Wasserstoffatomen. Die Struktur ist tetraedrisch.</p>
+      <p><strong>Vorkommen:</strong> Erdgas, Sümpfe, Tiermägen</p>
+      <p><strong>Besonderheiten:</strong> Starkes Treibhausgas.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Natriumchlorid (NaCl)</h2>
+      <img src="nacl bild.jpg" alt="Natriumchlorid Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Kochsalz besteht aus Natrium- und Chloridionen, die ein ionisches Kristallgitter bilden.</p>
+      <p><strong>Bindungsart:</strong> Ionenbindung</p>
+      <p><strong>Vorkommen:</strong> Meere, Salzlager</p>
+      <p><strong>Besonderheiten:</strong> Ohne NaCl kann der menschliche Körper nicht funktionieren.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2025 Molekülprojekt
+  </footer>
+  <script>
+    const cards = document.querySelectorAll('.molecule-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moleküle – Informationen</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #131b2f;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 2px solid #00e0ff;
+    }
+
+    header h1 {
+      font-size: 40px;
+      margin: 0;
+      letter-spacing: 2px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00e0ff; }
+      to { text-shadow: 0 0 25px #00e0ff; }
+    }
+
+    .content {
+      padding: 40px 10%;
+    }
+
+    .molecule-card {
+      background: #111827;
+      border: 1px solid #00e0ff;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+      transition: transform 0.3s;
+    }
+
+    .molecule-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .molecule-card h2 {
+      margin-top: 0;
+      color: #00e0ff;
+    }
+
+    .molecule-img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      display: block;
+      margin: 20px 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      padding: 20px;
+      background: #131b2f;
+      border-top: 2px solid #00e0ff;
+      color: #aaa;
+    }
+    
+    /* Scroll Animation */
+    .molecule-card { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+    .molecule-card.visible { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+  <header>
+    <h1>Moleküle – ausführliche Informationen</h1>
+  </header>
+
+  <div class="content">
+
+    <div class="molecule-card">
+      <h2>Wasser (H₂O)</h2>
+      <img src="h20 bild.png" alt="Wassermolekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Wasser besteht aus zwei Wasserstoffatomen und einem Sauerstoffatom. Die typische gewinkelte Struktur führt zu einzigartigen Eigenschaften wie Oberflächenspannung und hoher Wärmekapazität.</p>
+      <p><strong>Vorkommen:</strong> Ozeane, Atmosphäre, Lebewesen</p>
+      <p><strong>Besonderheiten:</strong> Wasser ist das wichtigste Lösungsmittel der Erde.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Kohlenstoffdioxid (CO₂)</h2>
+      <img src="co2 bild.png" alt="CO₂ Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> CO₂ besteht aus einem Kohlenstoffatom und zwei Sauerstoffatomen. Die Struktur ist linear und symmetrisch.</p>
+      <p><strong>Vorkommen:</strong> Atmosphäre, vulkanische Gase, Zellatmung</p>
+      <p><strong>Besonderheiten:</strong> Wichtig für den Treibhauseffekt und Photosynthese.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Methan (CH₄)</h2>
+      <img src="ch4 bild.jpg" alt="Methan Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Methan besteht aus einem Kohlenstoffatom und vier Wasserstoffatomen. Die Struktur ist tetraedrisch.</p>
+      <p><strong>Vorkommen:</strong> Erdgas, Sümpfe, Tiermägen</p>
+      <p><strong>Besonderheiten:</strong> Starkes Treibhausgas.</p>
+    </div>
+
+    <div class="molecule-card">
+      <h2>Natriumchlorid (NaCl)</h2>
+      <img src="nacl bild.jpg" alt="Natriumchlorid Molekül" class="molecule-img">
+      <p><strong>Beschreibung:</strong> Kochsalz besteht aus Natrium- und Chloridionen, die ein ionisches Kristallgitter bilden.</p>
+      <p><strong>Bindungsart:</strong> Ionenbindung</p>
+      <p><strong>Vorkommen:</strong> Meere, Salzlager</p>
+      <p><strong>Besonderheiten:</strong> Ohne NaCl kann der menschliche Körper nicht funktionieren.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2025 Molekülprojekt
+  </footer>
+  <script>
+    const cards = document.querySelectorAll('.molecule-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
+>>>>>>> Stashed changes

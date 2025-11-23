@@ -1,0 +1,823 @@
+<<<<<<< Updated upstream
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Molekül-Quiz</title>
+<style>
+  :root{
+    --bg:#071225;
+    --card:#0f1720;
+    --accent:#00d4ff;
+    --success:#00e08a;
+    --danger:#ff4b6e;
+    --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Inter", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg,var(--bg),#041020);
+    color:#e6f2f8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:900px;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  header h1{
+    margin:0;
+    font-size:28px;
+    color:var(--accent);
+    letter-spacing:1px;
+    text-shadow:0 6px 30px rgba(0,212,255,0.06);
+  }
+  header p{margin:8px 0 0;color:#bcdbe6}
+
+  .card{
+    background: linear-gradient(180deg,var(--card), #0b1420);
+    border-radius:14px;
+    padding:20px;
+    box-shadow: 0 8px 30px rgba(2,6,10,0.6);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  .status{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .score {
+    font-weight:600;
+    color:#dffcf6;
+  }
+  .progress{
+    flex:1;
+    height:12px;
+    background:rgba(255,255,255,0.05);
+    border-radius:999px;
+    overflow:hidden;
+    margin-left:12px;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .progress > b{
+    display:block;
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg,var(--accent),#7af0d8);
+    transition:width .5s ease;
+  }
+
+  .question {
+    margin:10px 0 18px;
+    font-size:20px;
+    min-height:54px;
+  }
+
+  .answers{ display:grid; gap:12px; grid-template-columns: 1fr; }
+
+  .answers button{
+    padding:14px 16px;
+    background:rgba(255,255,255,0.02);
+    color:inherit;
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    text-align:left;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    box-shadow: 0 6px 18px rgba(2,6,10,0.45);
+  }
+  .answers button:hover{ transform:translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+  .answers button:disabled{ cursor:not-allowed; opacity:0.85; transform:none; }
+
+  .answers button.correct{
+    background: linear-gradient(90deg,var(--success), #9ff3d1);
+    color:#042016;
+    border-color: rgba(0,224,138,0.6);
+    transform:scale(1.02);
+  }
+  .answers button.wrong{
+    background: linear-gradient(90deg,var(--danger), #ff98a9);
+    color:#2b0510;
+    border-color: rgba(255,75,110,0.6);
+    animation: shake .55s;
+  }
+  @keyframes shake{
+    0%{ transform:translateX(0) }
+    20%{ transform:translateX(-8px) }
+    40%{ transform:translateX(8px) }
+    60%{ transform:translateX(-6px) }
+    80%{ transform:translateX(6px) }
+    100%{ transform:translateX(0) }
+  }
+
+  .controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:16px;
+    gap:12px;
+  }
+  .controls .btn{
+    padding:10px 16px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#04222a;
+    box-shadow: 0 10px 30px rgba(0,212,255,0.08);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:#cfefff;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+
+  /* result screen */
+  .result{
+    text-align:center;
+    padding:28px;
+  }
+  .result h2{ margin:0 0 8px; font-size:24px; color:var(--accent) }
+  .result p{ margin:6px 0; color:#cfeff6 }
+  .big-percent{
+    font-size:48px;
+    font-weight:800;
+    margin:10px 0;
+    color:var(--accent);
+    text-shadow: 0 10px 40px rgba(0,212,255,0.06);
+  }
+
+  @media (max-width:560px){
+    .question{ font-size:18px }
+    .answers button{ font-size:15px; padding:12px }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Molekül-Quiz</h1>
+      <p>Teste dein Wissen — wähle die richtige Antwort aus.</p>
+    </header>
+
+    <div class="card" id="quizCard">
+      <div class="status">
+        <div class="score" id="scoreDisplay">Punkte: 0 / 0 (0%)</div>
+        <div class="progress" aria-hidden="true">
+          <b id="progressBar"></b>
+        </div>
+      </div>
+
+      <div id="quizArea">
+        <div class="question" id="questionText">Lade Frage …</div>
+        <div class="answers" id="answerButtons"></div>
+
+        <div class="controls">
+          <button class="btn btn-ghost" id="skipBtn">Überspringen</button>
+          <button class="btn btn-primary" id="nextBtn" disabled>Nächste Frage</button>
+        </div>
+      </div>
+
+      <div id="resultArea" style="display:none" class="result">
+        <h2>Quiz abgeschlossen</h2>
+        <div class="big-percent" id="finalPercent">0%</div>
+        <p id="finalText">Du hast X von Y Punkten erreicht.</p>
+        <div style="margin-top:18px">
+          <button class="btn btn-primary" id="retryBtn">Nochmal versuchen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Quiz-Daten (Beispielfragen)
+  const quizData = [
+    {
+      question: "Aus welchen Atomen besteht Wasser (H₂O)?",
+      answers: [
+        { text: "1× Wasserstoff, 1× Helium", correct: false },
+        { text: "2× Wasserstoff, 1× Sauerstoff", correct: true },
+        { text: "1× Kohlenstoff, 2× Sauerstoff", correct: false },
+        { text: "2× Stickstoff, 1× Sauerstoff", correct: false }
+      ]
+    },
+    {
+      question: "Wie ist die Struktur von CO₂?",
+      answers: [
+        { text: "Gewinkelt", correct: false },
+        { text: "Linear", correct: true },
+        { text: "Tetraedrisch", correct: false },
+        { text: "Pyramidal", correct: false }
+      ]
+    },
+    {
+      question: "Welche Bindungsart hat NaCl hauptsächlich?",
+      answers: [
+        { text: "Ionenbindung", correct: true },
+        { text: "Wasserstoffbrücke", correct: false },
+        { text: "Metallbindung", correct: false },
+        { text: "kovalente Bindung", correct: false }
+      ]
+    },
+    {
+      question: "Welches Molekül ist ein starkes Treibhausgas?",
+      answers: [
+        { text: "H₂O (Wasserdampf)", correct: true },
+        { text: "O₂ (Sauerstoff)", correct: false },
+        { text: "N₂ (Stickstoff)", correct: false },
+        { text: "He (Helium)", correct: false }
+      ]
+    },
+    {
+      question: "Welche Form hat Methan (CH₄)?",
+      answers: [
+        { text: "linear", correct: false },
+        { text: "gewinkelt", correct: false },
+        { text: "oktaedrisch", correct: false },
+        { text: "tetraedrisch", correct: true }
+      ]
+    }
+  ];
+
+  // State
+  let currentIndex = 0;
+  let score = 0;
+  let answered = 0;
+  const total = quizData.length;
+
+  // Elements
+  const qText = document.getElementById('questionText');
+  const ansBox = document.getElementById('answerButtons');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const progressBar = document.getElementById('progressBar');
+  const nextBtn = document.getElementById('nextBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const resultArea = document.getElementById('resultArea');
+  const quizArea = document.getElementById('quizArea');
+  const finalPercent = document.getElementById('finalPercent');
+  const finalText = document.getElementById('finalText');
+  const retryBtn = document.getElementById('retryBtn');
+
+  // Initialize
+  function init(){
+    currentIndex = 0;
+    score = 0;
+    answered = 0;
+    updateStatus();
+    loadQuestion();
+    resultArea.style.display = 'none';
+    quizArea.style.display = '';
+  }
+
+  function loadQuestion(){
+    nextBtn.disabled = true;
+    ansBox.innerHTML = '';
+    const q = quizData[currentIndex];
+    qText.textContent = `${currentIndex+1}. ${q.question}`;
+
+    // Shuffle answers (stable)
+    const answers = q.answers.map(a=>a).sort(()=>Math.random()-0.5);
+
+    answers.forEach(a=>{
+      const btn = document.createElement('button');
+      btn.textContent = a.text;
+      btn.onclick = () => handleAnswer(btn, a.correct);
+      ansBox.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(button, correct){
+    // disable all
+    const buttons = ansBox.querySelectorAll('button');
+    buttons.forEach(b=>b.disabled = true);
+
+    // mark
+    if(correct){
+      button.classList.add('correct');
+      score++;
+    } else {
+      button.classList.add('wrong');
+      // show correct answer
+      buttons.forEach(b=>{
+        if(b !== button){
+          // find the one with correct text by comparing with data
+          const txt = b.textContent;
+          const q = quizData[currentIndex];
+          const right = q.answers.find(x => x.correct && x.text === txt);
+          if(right) b.classList.add('correct');
+        }
+      });
+    }
+
+    answered++;
+    updateStatus();
+    nextBtn.disabled = false;
+
+    // If last question, change button text
+    if(currentIndex === total - 1){
+      nextBtn.textContent = 'Ergebnis anzeigen';
+    } else {
+      nextBtn.textContent = 'Nächste Frage';
+    }
+  }
+
+  nextBtn.addEventListener('click', ()=>{
+    // advance or finish
+    if(currentIndex === total - 1){
+      showResult();
+      return;
+    }
+    currentIndex++;
+    loadQuestion();
+  });
+
+  skipBtn.addEventListener('click', ()=>{
+    // count as answered but incorrect (optional). Here: don't count, just advance.
+    if(currentIndex === total - 1){
+      showResult();
+      return;
+    }
+    currentIndex++;
+    loadQuestion();
+  });
+
+  function updateStatus(){
+    const percent = answered === 0 ? 0 : Math.round((score / answered) * 100);
+    scoreDisplay.textContent = `Punkte: ${score} / ${answered} (${percent}%)`;
+    const progressPercent = Math.round((currentIndex / total) * 100);
+    progressBar.style.width = `${progressPercent}%`;
+  }
+
+  function showResult(){
+    quizArea.style.display = 'none';
+    resultArea.style.display = '';
+    const percentTotal = Math.round((score / total) * 100);
+    finalPercent.textContent = `${percentTotal}%`;
+    finalText.textContent = `Du hast ${score} von ${total} Punkten erreicht.`;
+
+    // message
+    let msg = '';
+    if(percentTotal === 100) msg = 'Perfekt! 🎉';
+    else if(percentTotal >= 80) msg = 'Super! Sehr gut!';
+    else if(percentTotal >= 50) msg = 'Nicht schlecht — weiter so!';
+    else msg = 'Übung macht den Meister — dranbleiben!';
+
+    // small animation on percent
+    finalPercent.animate([
+      { transform: 'scale(0.6)', opacity:0 },
+      { transform: 'scale(1.06)', opacity:1 },
+      { transform: 'scale(1)', opacity:1 }
+    ], { duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)'});
+
+    // show message under percent
+    const msgEl = document.createElement('p');
+    msgEl.textContent = msg;
+    msgEl.style.color = '#cfeff6';
+    msgEl.style.marginTop = '8px';
+    resultArea.insertBefore(msgEl, resultArea.querySelector('div') );
+  }
+
+  retryBtn.addEventListener('click', ()=>{
+    // reset and remove previously inserted message element(s)
+    const children = resultArea.querySelectorAll('p');
+    children.forEach((p,i)=>{
+      if(p !== finalText) p.remove();
+    });
+    init();
+  });
+
+  // start
+  init();
+</script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Molekül-Quiz</title>
+<style>
+  :root{
+    --bg:#071225;
+    --card:#0f1720;
+    --accent:#00d4ff;
+    --success:#00e08a;
+    --danger:#ff4b6e;
+    --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Inter", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg,var(--bg),#041020);
+    color:#e6f2f8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:900px;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  header h1{
+    margin:0;
+    font-size:28px;
+    color:var(--accent);
+    letter-spacing:1px;
+    text-shadow:0 6px 30px rgba(0,212,255,0.06);
+  }
+  header p{margin:8px 0 0;color:#bcdbe6}
+
+  .card{
+    background: linear-gradient(180deg,var(--card), #0b1420);
+    border-radius:14px;
+    padding:20px;
+    box-shadow: 0 8px 30px rgba(2,6,10,0.6);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  .status{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .score {
+    font-weight:600;
+    color:#dffcf6;
+  }
+  .progress{
+    flex:1;
+    height:12px;
+    background:rgba(255,255,255,0.05);
+    border-radius:999px;
+    overflow:hidden;
+    margin-left:12px;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .progress > b{
+    display:block;
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg,var(--accent),#7af0d8);
+    transition:width .5s ease;
+  }
+
+  .question {
+    margin:10px 0 18px;
+    font-size:20px;
+    min-height:54px;
+  }
+
+  .answers{ display:grid; gap:12px; grid-template-columns: 1fr; }
+
+  .answers button{
+    padding:14px 16px;
+    background:rgba(255,255,255,0.02);
+    color:inherit;
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    text-align:left;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    box-shadow: 0 6px 18px rgba(2,6,10,0.45);
+  }
+  .answers button:hover{ transform:translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+  .answers button:disabled{ cursor:not-allowed; opacity:0.85; transform:none; }
+
+  .answers button.correct{
+    background: linear-gradient(90deg,var(--success), #9ff3d1);
+    color:#042016;
+    border-color: rgba(0,224,138,0.6);
+    transform:scale(1.02);
+  }
+  .answers button.wrong{
+    background: linear-gradient(90deg,var(--danger), #ff98a9);
+    color:#2b0510;
+    border-color: rgba(255,75,110,0.6);
+    animation: shake .55s;
+  }
+  @keyframes shake{
+    0%{ transform:translateX(0) }
+    20%{ transform:translateX(-8px) }
+    40%{ transform:translateX(8px) }
+    60%{ transform:translateX(-6px) }
+    80%{ transform:translateX(6px) }
+    100%{ transform:translateX(0) }
+  }
+
+  .controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:16px;
+    gap:12px;
+  }
+  .controls .btn{
+    padding:10px 16px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#04222a;
+    box-shadow: 0 10px 30px rgba(0,212,255,0.08);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:#cfefff;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+
+  /* result screen */
+  .result{
+    text-align:center;
+    padding:28px;
+  }
+  .result h2{ margin:0 0 8px; font-size:24px; color:var(--accent) }
+  .result p{ margin:6px 0; color:#cfeff6 }
+  .big-percent{
+    font-size:48px;
+    font-weight:800;
+    margin:10px 0;
+    color:var(--accent);
+    text-shadow: 0 10px 40px rgba(0,212,255,0.06);
+  }
+
+  @media (max-width:560px){
+    .question{ font-size:18px }
+    .answers button{ font-size:15px; padding:12px }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Molekül-Quiz</h1>
+      <p>Teste dein Wissen — wähle die richtige Antwort aus.</p>
+    </header>
+
+    <div class="card" id="quizCard">
+      <div class="status">
+        <div class="score" id="scoreDisplay">Punkte: 0 / 0 (0%)</div>
+        <div class="progress" aria-hidden="true">
+          <b id="progressBar"></b>
+        </div>
+      </div>
+
+      <div id="quizArea">
+        <div class="question" id="questionText">Lade Frage …</div>
+        <div class="answers" id="answerButtons"></div>
+
+        <div class="controls">
+          <button class="btn btn-ghost" id="skipBtn">Überspringen</button>
+          <button class="btn btn-primary" id="nextBtn" disabled>Nächste Frage</button>
+        </div>
+      </div>
+
+      <div id="resultArea" style="display:none" class="result">
+        <h2>Quiz abgeschlossen</h2>
+        <div class="big-percent" id="finalPercent">0%</div>
+        <p id="finalText">Du hast X von Y Punkten erreicht.</p>
+        <div style="margin-top:18px">
+          <button class="btn btn-primary" id="retryBtn">Nochmal versuchen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Quiz-Daten (Beispielfragen)
+  const quizData = [
+    {
+      question: "Aus welchen Atomen besteht Wasser (H₂O)?",
+      answers: [
+        { text: "1× Wasserstoff, 1× Helium", correct: false },
+        { text: "2× Wasserstoff, 1× Sauerstoff", correct: true },
+        { text: "1× Kohlenstoff, 2× Sauerstoff", correct: false },
+        { text: "2× Stickstoff, 1× Sauerstoff", correct: false }
+      ]
+    },
+    {
+      question: "Wie ist die Struktur von CO₂?",
+      answers: [
+        { text: "Gewinkelt", correct: false },
+        { text: "Linear", correct: true },
+        { text: "Tetraedrisch", correct: false },
+        { text: "Pyramidal", correct: false }
+      ]
+    },
+    {
+      question: "Welche Bindungsart hat NaCl hauptsächlich?",
+      answers: [
+        { text: "Ionenbindung", correct: true },
+        { text: "Wasserstoffbrücke", correct: false },
+        { text: "Metallbindung", correct: false },
+        { text: "kovalente Bindung", correct: false }
+      ]
+    },
+    {
+      question: "Welches Molekül ist ein starkes Treibhausgas?",
+      answers: [
+        { text: "H₂O (Wasserdampf)", correct: true },
+        { text: "O₂ (Sauerstoff)", correct: false },
+        { text: "N₂ (Stickstoff)", correct: false },
+        { text: "He (Helium)", correct: false }
+      ]
+    },
+    {
+      question: "Welche Form hat Methan (CH₄)?",
+      answers: [
+        { text: "linear", correct: false },
+        { text: "gewinkelt", correct: false },
+        { text: "oktaedrisch", correct: false },
+        { text: "tetraedrisch", correct: true }
+      ]
+    }
+  ];
+
+  // State
+  let currentIndex = 0;
+  let score = 0;
+  let answered = 0;
+  const total = quizData.length;
+
+  // Elements
+  const qText = document.getElementById('questionText');
+  const ansBox = document.getElementById('answerButtons');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const progressBar = document.getElementById('progressBar');
+  const nextBtn = document.getElementById('nextBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const resultArea = document.getElementById('resultArea');
+  const quizArea = document.getElementById('quizArea');
+  const finalPercent = document.getElementById('finalPercent');
+  const finalText = document.getElementById('finalText');
+  const retryBtn = document.getElementById('retryBtn');
+
+  // Initialize
+  function init(){
+    currentIndex = 0;
+    score = 0;
+    answered = 0;
+    updateStatus();
+    loadQuestion();
+    resultArea.style.display = 'none';
+    quizArea.style.display = '';
+  }
+
+  function loadQuestion(){
+    nextBtn.disabled = true;
+    ansBox.innerHTML = '';
+    const q = quizData[currentIndex];
+    qText.textContent = `${currentIndex+1}. ${q.question}`;
+
+    // Shuffle answers (stable)
+    const answers = q.answers.map(a=>a).sort(()=>Math.random()-0.5);
+
+    answers.forEach(a=>{
+      const btn = document.createElement('button');
+      btn.textContent = a.text;
+      btn.onclick = () => handleAnswer(btn, a.correct);
+      ansBox.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(button, correct){
+    // disable all
+    const buttons = ansBox.querySelectorAll('button');
+    buttons.forEach(b=>b.disabled = true);
+
+    // mark
+    if(correct){
+      button.classList.add('correct');
+      score++;
+    } else {
+      button.classList.add('wrong');
+      // show correct answer
+      buttons.forEach(b=>{
+        if(b !== button){
+          // find the one with correct text by comparing with data
+          const txt = b.textContent;
+          const q = quizData[currentIndex];
+          const right = q.answers.find(x => x.correct && x.text === txt);
+          if(right) b.classList.add('correct');
+        }
+      });
+    }
+
+    answered++;
+    updateStatus();
+    nextBtn.disabled = false;
+
+    // If last question, change button text
+    if(currentIndex === total - 1){
+      nextBtn.textContent = 'Ergebnis anzeigen';
+    } else {
+      nextBtn.textContent = 'Nächste Frage';
+    }
+  }
+
+  nextBtn.addEventListener('click', ()=>{
+    // advance or finish
+    if(currentIndex === total - 1){
+      showResult();
+      return;
+    }
+    currentIndex++;
+    loadQuestion();
+  });
+
+  skipBtn.addEventListener('click', ()=>{
+    // count as answered but incorrect (optional). Here: don't count, just advance.
+    if(currentIndex === total - 1){
+      showResult();
+      return;
+    }
+    currentIndex++;
+    loadQuestion();
+  });
+
+  function updateStatus(){
+    const percent = answered === 0 ? 0 : Math.round((score / answered) * 100);
+    scoreDisplay.textContent = `Punkte: ${score} / ${answered} (${percent}%)`;
+    const progressPercent = Math.round((currentIndex / total) * 100);
+    progressBar.style.width = `${progressPercent}%`;
+  }
+
+  function showResult(){
+    quizArea.style.display = 'none';
+    resultArea.style.display = '';
+    const percentTotal = Math.round((score / total) * 100);
+    finalPercent.textContent = `${percentTotal}%`;
+    finalText.textContent = `Du hast ${score} von ${total} Punkten erreicht.`;
+
+    // message
+    let msg = '';
+    if(percentTotal === 100) msg = 'Perfekt! 🎉';
+    else if(percentTotal >= 80) msg = 'Super! Sehr gut!';
+    else if(percentTotal >= 50) msg = 'Nicht schlecht — weiter so!';
+    else msg = 'Übung macht den Meister — dranbleiben!';
+
+    // small animation on percent
+    finalPercent.animate([
+      { transform: 'scale(0.6)', opacity:0 },
+      { transform: 'scale(1.06)', opacity:1 },
+      { transform: 'scale(1)', opacity:1 }
+    ], { duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)'});
+
+    // show message under percent
+    const msgEl = document.createElement('p');
+    msgEl.textContent = msg;
+    msgEl.style.color = '#cfeff6';
+    msgEl.style.marginTop = '8px';
+    resultArea.insertBefore(msgEl, resultArea.querySelector('div') );
+  }
+
+  retryBtn.addEventListener('click', ()=>{
+    // reset and remove previously inserted message element(s)
+    const children = resultArea.querySelectorAll('p');
+    children.forEach((p,i)=>{
+      if(p !== finalText) p.remove();
+    });
+    init();
+  });
+
+  // start
+  init();
+</script>
+</body>
+</html>
+>>>>>>> Stashed changes
