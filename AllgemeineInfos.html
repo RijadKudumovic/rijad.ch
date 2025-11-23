@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wer bin ich?</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ==== GLOBAL STYLE ==== */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Share Tech Mono', monospace;
+  background: radial-gradient(circle at 30% 30%, #060606 0%, #000 100%);
+  color: #00ffcc;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==== BEWEGENDER CODE-HINTERGRUND ==== */
+#flowingText {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.flow-line {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #00ffcc;
+  opacity: 0.3;
+  text-shadow: 0 0 6px #00ffcc;
+}
+
+@keyframes moveLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes moveRight {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ==== LIGHT OVERLAY ==== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(0,255,180,0.06), rgba(100,0,255,0.08));
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* ==== ZURÜCK-PFEIL ==== */
+.back-arrow {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  z-index: 3;
+  font-size: 32px;
+  color: #00ffcc;
+  text-decoration: none;
+  text-shadow: 0 0 10px #00ffcc, 0 0 20px #009988;
+  transition: transform 0.2s ease, text-shadow 0.3s ease;
+}
+.back-arrow:hover {
+  transform: scale(1.15);
+  text-shadow: 0 0 15px #00ffee, 0 0 30px #00ccaa;
+}
+
+/* ==== TITEL + ANIMATION ==== */
+.container {
+  position: relative;
+  text-align: center;
+  padding-top: 100px;
+  z-index: 2;
+}
+
+h1 {
+  font-size: 56px;
+  color: #00ffcc;
+  text-shadow: 0 0 15px #00ffcc, 0 0 30px #008080;
+  display: inline-block;
+  border-right: 3px solid #00ffcc;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 3.5s steps(40, end) forwards, blink 0.8s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 360px; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+.subtitle {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 2s ease 3.8s forwards;
+  color: #aaffee;
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==== MAP SECTION ==== */
+.map-container {
+  margin: 80px auto;
+  max-width: 800px;
+  border: 1px solid rgba(0,255,150,0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0,255,150,0.25);
+  z-index: 2;
+  position: relative;
+  animation: fadeUp 2s ease 5s forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.map-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(0,255,180,0.05), rgba(0,0,0,0.3));
+  z-index: 1;
+  pointer-events: none;
+}
+iframe {
+  width: 100%;
+  height: 450px;
+  border: none;
+  z-index: 0;
+}
+
+/* ==== CARD SECTION ==== */
+section.card {
+  background: rgba(10,10,10,0.75);
+  border: 1px solid rgba(0,255,150,0.2);
+  border-radius: 12px;
+  max-width: 850px;
+  margin: 80px auto;
+  padding: 40px;
+  text-align: center;
+  color: #aaffee;
+  box-shadow: 0 0 30px rgba(0,255,150,0.2);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.5s ease 4.8s forwards;
+  z-index: 2;
+}
+
+section.card h2 {
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+footer {
+  text-align: center;
+  color: #00ffcc;
+  opacity: 0.6;
+  margin-bottom: 40px;
+  z-index: 2;
+  position: relative;
+}
+</style>
+</head>
+<body>
+
+<!-- Pfeil zur vorherigen Seite -->
+<a href="rijad.html" class="back-arrow">←</a>
+
+<!-- Animierter Code-Hintergrund -->
+<div id="flowingText"></div>
+
+<div class="container">
+  <h1>Wer bin ich?</h1>
+  <div class="subtitle">&gt; Standortanalyse — Mellingen gefunden</div>
+
+  <section class="card">
+    <h2>Über mich</h2>
+    <p>Ich bin <strong>Rijad Kudumovic</strong>
+    <p>Ich wohne in Mellingen und gehe in KKZ zur Schule wo ich die S3C als Klasse habe. Die Fächer English, Geschichte und Mathematik bereiten mir viel Freude.
+  <li><strong>Projekte:</strong> Ich liebe es kleine Projekte zu entwickeln, um Neues zu lernen.</li>
+  <li><strong>Spiele:</strong> Ich spiele gerne Video Spielen mit Kollegen, führt zu lustigen Momenten.</li>
+  <li><strong>Technik:</strong> Neue Gadgets, Software oder Hardware interessieren mich besonders.</li>
+  </section>
+
+  <!-- GOOGLE MAPS -->
+  <div class="map-container">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2715.398059533787!2d8.269991615611194!3d47.41648027917319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47906ce0a64a7ee7%3A0xa27b9d3dc71d4b41!2sMellingen%2C%20Schweiz!5e0!3m2!1sde!2sch!4v1680000000000!5m2!1sde!2sch" 
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+<footer>© 2025 Rijad Kudumovic</footer>
+
+<script>
+/* ==== FLIEẞENDER CODE-HINTERGRUND ==== */
+const phrases = [
+  "ACCESS_GRANTED()", "INIT_PROTOCOL()", "RUN: SYSTEM_CHECK()", 
+  "ENCRYPT(DATA_STREAM)", "let userActive = true;", "CONNECT_SERVER()", 
+  "UPLOAD_SUCCESS()", "TRACE_COMPLETE()", "CODE_EXECUTE();"
+];
+
+const container = document.getElementById('flowingText');
+
+function createFlowLine(direction) {
+  const line = document.createElement('div');
+  line.classList.add('flow-line');
+  line.textContent = phrases[Math.floor(Math.random() * phrases.length)].repeat(15);
+  line.style.top = `${Math.random() * 100}%`;
+  line.style.animation = `${direction === 'left' ? 'moveLeft' : 'moveRight'} ${20 + Math.random() * 15}s linear infinite`;
+  container.appendChild(line);
+}
+
+for (let i = 0; i < 20; i++) {
+  createFlowLine(i % 2 === 0 ? 'left' : 'right');
+}
+</script>
+
+</body>
+</html>
