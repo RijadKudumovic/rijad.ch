@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geschichte der FDP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Share Tech Mono', monospace;
+    background:linear-gradient(180deg, #050b14, #000);
+    color:#e6f1ff;
+    overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+header{
+    text-align:center;
+    padding:80px 20px 50px;
+}
+
+header h1{
+    font-family:'Orbitron', sans-serif;
+    font-size:3em;
+    color:#1e90ff;
+    text-shadow:0 0 25px rgba(30,144,255,0.6);
+    animation:titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow{
+    from{ text-shadow:0 0 15px rgba(30,144,255,0.4); }
+    to{ text-shadow:0 0 35px rgba(30,144,255,0.9); }
+}
+
+header p{
+    margin-top:15px;
+    max-width:700px;
+    margin-inline:auto;
+    font-size:1.1em;
+    color:#cdd9e5;
+}
+
+/* ===== TIMELINE ===== */
+.timeline{
+    position:relative;
+    max-width:900px;
+    margin:80px auto;
+    padding:20px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    width:4px;
+    height:100%;
+    background:linear-gradient(#1e90ff, transparent);
+    transform:translateX(-50%);
+}
+
+/* ===== EVENT ===== */
+.event{
+    position:relative;
+    width:50%;
+    padding:30px;
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 0.8s ease;
+}
+
+.event.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.event.left{
+    left:0;
+    text-align:right;
+}
+
+.event.right{
+    left:50%;
+}
+
+.event::before{
+    content:"";
+    position:absolute;
+    top:30px;
+    width:18px;
+    height:18px;
+    background:#1e90ff;
+    border-radius:50%;
+    box-shadow:0 0 20px #1e90ff;
+}
+
+.event.left::before{
+    right:-9px;
+}
+
+.event.right::before{
+    left:-9px;
+}
+
+/* ===== EVENT CARD ===== */
+.event-content{
+    background:rgba(15,25,40,0.9);
+    border:1px solid rgba(30,144,255,0.3);
+    border-radius:10px;
+    padding:25px;
+    box-shadow:0 0 30px rgba(30,144,255,0.1);
+}
+
+.event-content h3{
+    color:#1e90ff;
+    margin-bottom:10px;
+}
+
+.event-content p{
+    font-size:0.95em;
+    line-height:1.6;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    text-align:center;
+    padding:40px 20px;
+    font-size:0.9em;
+    opacity:0.6;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+    .timeline::before{
+        left:10px;
+    }
+
+    .event{
+        width:100%;
+        padding-left:40px;
+        padding-right:10px;
+        text-align:left;
+    }
+
+    .event.left,
+    .event.right{
+        left:0;
+    }
+
+    .event::before{
+        left:1px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Die Geschichte der FDP</h1>
+    <p>
+        Die FDP.Die Liberalen gehört zu den ältesten politischen Parteien der Schweiz
+        und prägte die Entwicklung des modernen Bundesstaates entscheidend.
+    </p>
+</header>
+
+<section class="timeline">
+
+    <div class="event left">
+        <div class="event-content">
+            <h3>1848 – Entstehung</h3>
+            <p>
+                Die FDP entsteht aus der liberalen Bewegung und spielt eine zentrale Rolle
+                bei der Gründung des Schweizer Bundesstaates.
+            </p>
+        </div>
+    </div>
+
+    <div class="event right">
+        <div class="event-content">
+            <h3>1894 – Parteigründung</h3>
+            <p>
+                Die Freisinnig-Demokratische Partei wird offiziell gegründet
+                und dominiert über Jahrzehnte die Schweizer Politik.
+            </p>
+        </div>
+    </div>
+
+    <div class="event left">
+        <div class="event-content">
+            <h3>20. Jahrhundert</h3>
+            <p>
+                Die FDP stellt zahlreiche Bundesräte und prägt Wirtschaft,
+                Bildung und Rechtsstaatlichkeit.
+            </p>
+        </div>
+    </div>
+
+    <div class="event right">
+        <div class="event-content">
+            <h3>2009 – FDP.Die Liberalen</h3>
+            <p>
+                Zusammenschluss mit der Liberalen Partei der Schweiz (LPS)
+                zur heutigen FDP.Die Liberalen.
+            </p>
+        </div>
+    </div>
+
+    <div class="event left">
+        <div class="event-content">
+            <h3>Heute</h3>
+            <p>
+                Die FDP setzt sich für Freiheit, Eigenverantwortung,
+                Innovation und eine starke Wirtschaft ein.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<footer>
+    © 2025 – Präsentation Geschichte der FDP
+</footer>
+
+<script>
+/* ===== SCROLL ANIMATION ===== */
+const events = document.querySelectorAll('.event');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('show');
+        }
+    });
+},{ threshold:0.2 });
+
+events.forEach(event => observer.observe(event));
+</script>
+
+</body>
+</html>

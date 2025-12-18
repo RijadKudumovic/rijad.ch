@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FDP Schweiz – Moderne Webseite</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, #1e90ff55, #001e3c),
+        radial-gradient(circle at 80% 70%, #007bff55, #000a1a);
+    animation: bgMove 14s infinite alternate ease-in-out;
+    z-index: -2;
+}
+
+@keyframes bgMove {
+    from { transform: scale(1); }
+    to { transform: scale(1.25); }
+}
+
+/* ===== HEADER ===== */
+header {
+    padding: 20px 60px;
+    background: rgba(0, 0, 40, 0.55);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #d0e9ff;
+    font-weight: 500;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #66b3ff;
+    transition: 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* ===== HERO ===== */
+.hero {
+    height: 100vh;
+    background:
+        linear-gradient(to right, rgba(0,10,40,0.8), rgba(0,10,40,0.3)),
+        url("images/fdp-hero.jpg") center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 60px;
+}
+
+.hero h2 {
+    font-size: 64px;
+    max-width: 700px;
+    animation: fadeUp 1.2s ease forwards;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-top: 25px;
+    max-width: 650px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.3s forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(35px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SECTIONS ===== */
+section {
+    padding: 110px 60px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.9s ease;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h3 {
+    font-size: 38px;
+    margin-bottom: 30px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.7;
+    max-width: 900px;
+}
+
+/* ===== GRID & CARDS ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    margin-top: 35px;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: 0.35s ease;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.card h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+}
+
+.card:hover img {
+    transform: scale(1.08);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    padding: 35px;
+    text-align: center;
+    background: rgba(0,0,30,0.6);
+    margin-top: 80px;
+    font-size: 14px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width: 768px){
+    header {
+        padding: 15px 30px;
+    }
+
+    .hero {
+        padding: 0 30px;
+    }
+
+    .hero h2 {
+        font-size: 42px;
+    }
+
+    section {
+        padding: 90px 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>FDP Schweiz</h1>
+    <nav>
+        <a href="GeschichteFDP.html">Geschichte</a>
+        <a href="fdp-werte.html">Werte</a>
+        <a href="fdp-politik.html">Politik</a>
+        <a href="fdp-leute.html">Personen</a>
+        <a href="fdp-fakten.html">Fakten</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h2>Für Freiheit, Verantwortung & Fortschritt</h2>
+    <p>
+        Die FDP. Die Liberalen setzt sich für eine starke,
+        innovative und zukunftsorientierte Schweiz ein.
+    </p>
+</div>
+
+<section>
+    <h3>Unsere Werte</h3>
+    <div class="grid">
+        <div class="card">
+            <img src="freiheit.jpg" alt="Freiheit">
+            <div class="card-content">
+                <h4>Freiheit</h4>
+                <p>Selbstbestimmung und individuelle Verantwortung stehen im Zentrum.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="fortschritt.png" alt="Innovation">
+            <div class="card-content">
+                <h4>Fortschritt</h4>
+                <p>Technologie, Bildung und Innovation sichern unseren Wohlstand.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="arbeit.webp" alt="Wirtschaft">
+            <div class="card-content">
+                <h4>Wirtschaft</h4>
+                <p>Eine starke Wirtschaft schafft Arbeitsplätze und Stabilität.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2025 FDP – Moderne Demo-Webseite
+</footer>
+
+<script>
+const sections = document.querySelectorAll("section");
+
+function revealOnScroll() {
+    sections.forEach(sec => {
+        if (sec.getBoundingClientRect().top < window.innerHeight - 120) {
+            sec.classList.add("visible");
+        }
+    });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+</script>
+
+</body>
+</html>

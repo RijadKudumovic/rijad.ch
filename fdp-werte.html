@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Werte der FDP Schweiz</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BASIS ===== */
+body{
+    margin:0;
+    font-family:'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #000814, #001d3d);
+    color:#e6f1ff;
+    overflow-x:hidden;
+}
+
+/* ===== HINTERGRUND ANIMATION ===== */
+.background-text{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    opacity:0.05;
+    font-size:60px;
+    animation: moveText 40s linear infinite;
+    white-space:nowrap;
+}
+
+@keyframes moveText{
+    from{ transform:translateX(-100%); }
+    to{ transform:translateX(100%); }
+}
+
+/* ===== HEADER ===== */
+header{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:100px 20px 80px;
+}
+
+header h1{
+    font-family:'Orbitron', sans-serif;
+    font-size:52px;
+    letter-spacing:2px;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px #1e90ff; }
+    to{ text-shadow:0 0 30px #1e90ff; }
+}
+
+header p{
+    max-width:700px;
+    margin:30px auto 0;
+    font-size:18px;
+    opacity:0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay:1s;
+}
+
+/* ===== SECTIONS ===== */
+section{
+    position:relative;
+    z-index:2;
+    max-width:1000px;
+    margin:60px auto;
+    padding:30px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:rgba(0,0,0,0.4);
+    border:1px solid rgba(30,144,255,0.3);
+    border-radius:14px;
+    padding:30px;
+    box-shadow:0 0 30px rgba(30,144,255,0.15);
+    opacity:0;
+    transform:translateY(30px);
+    animation: fadeUp 1.5s ease forwards;
+}
+
+.card:nth-child(1){animation-delay:0.2s}
+.card:nth-child(2){animation-delay:0.4s}
+.card:nth-child(3){animation-delay:0.6s}
+.card:nth-child(4){animation-delay:0.8s}
+.card:nth-child(5){animation-delay:1s}
+
+.card h2{
+    font-family:'Orbitron', sans-serif;
+    font-size:22px;
+    color:#4dabff;
+}
+
+.card p{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:15px;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+    box-shadow:0 0 50px rgba(30,144,255,0.4);
+}
+
+/* ===== FOOTER ===== */
+footer{
+    text-align:center;
+    padding:40px 20px;
+    font-size:14px;
+    opacity:0.6;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+    header h1{
+        font-size:36px;
+    }
+    header p{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-text">
+FREIHEIT • VERANTWORTUNG • WIRTSCHAFT • INNOVATION • RECHTSSTAAT •
+</div>
+
+<header>
+    <h1>Werte der FDP Schweiz</h1>
+    <p>
+        Die FDP. Die Liberalen steht für Freiheit, Verantwortung und Fortschritt.
+        Sie setzt sich für eine starke Wirtschaft, einen schlanken Staat und
+        Chancengleichheit ein.
+    </p>
+</header>
+
+<section>
+    <div class="card">
+        <h2>🕊️ Freiheit</h2>
+        <p>
+            Die FDP glaubt an die individuelle Freiheit. Jeder Mensch soll sein
+            Leben selbstbestimmt gestalten können – mit möglichst wenig staatlichen
+            Eingriffen.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>⚖️ Eigenverantwortung</h2>
+        <p>
+            Freiheit geht Hand in Hand mit Verantwortung. Die FDP fordert,
+            dass jede Person Verantwortung für ihr Handeln übernimmt.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>💼 Starke Wirtschaft</h2>
+        <p>
+            Eine gesunde Wirtschaft schafft Arbeitsplätze, Wohlstand und Innovation.
+            Die FDP unterstützt Unternehmen und fördert Wettbewerb.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🚀 Innovation & Fortschritt</h2>
+        <p>
+            Die FDP setzt auf Bildung, Forschung und neue Technologien,
+            um die Schweiz zukunftsfähig zu halten.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🏛️ Rechtsstaat & Demokratie</h2>
+        <p>
+            Die FDP verteidigt den Rechtsstaat, die Gewaltentrennung
+            und eine funktionierende direkte Demokratie.
+        </p>
+    </div>
+</section>
+
+<footer>
+    © 2025 – Übersicht der FDP-Werte
+</footer>
+
+</body>
+</html>

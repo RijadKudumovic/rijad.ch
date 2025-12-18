@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politik der FDP – Vergleich</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BASIS ===== */
+body{
+    margin:0;
+    font-family:'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #000814, #001d3d);
+    color:#e6f1ff;
+    overflow-x:hidden;
+}
+
+/* ===== ANIMIERTER HINTERGRUND ===== */
+.background{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    opacity:0.06;
+    font-size:48px;
+    white-space:nowrap;
+    animation: moveBg 35s linear infinite;
+}
+
+@keyframes moveBg{
+    from{transform:translateX(-100%);}
+    to{transform:translateX(100%);}
+}
+
+/* ===== HEADER ===== */
+header{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:100px 20px 70px;
+}
+
+header h1{
+    font-family:'Orbitron', sans-serif;
+    font-size:48px;
+    text-shadow:0 0 25px #1e90ff;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 15px #1e90ff; }
+    to{ text-shadow:0 0 40px #1e90ff; }
+}
+
+header p{
+    max-width:750px;
+    margin:30px auto 0;
+    font-size:18px;
+    opacity:0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay:1s;
+}
+
+/* ===== SEKTIONEN ===== */
+section{
+    position:relative;
+    z-index:2;
+    max-width:1100px;
+    margin:60px auto;
+    padding:20px;
+}
+
+h2{
+    font-family:'Orbitron', sans-serif;
+    font-size:28px;
+    margin-bottom:30px;
+    color:#4dabff;
+}
+
+/* ===== KARTEN ===== */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:rgba(0,0,0,0.45);
+    border:1px solid rgba(30,144,255,0.35);
+    border-radius:16px;
+    padding:30px;
+    box-shadow:0 0 30px rgba(30,144,255,0.15);
+    opacity:0;
+    transform:translateY(30px);
+    animation: fadeUp 1.5s ease forwards;
+}
+
+.card:nth-child(1){animation-delay:.2s}
+.card:nth-child(2){animation-delay:.4s}
+.card:nth-child(3){animation-delay:.6s}
+.card:nth-child(4){animation-delay:.8s}
+
+.card h3{
+    font-size:20px;
+    color:#7fc8ff;
+}
+
+.card p{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:12px;
+}
+
+.card:hover{
+    transform:translateY(-8px) scale(1.03);
+    box-shadow:0 0 50px rgba(30,144,255,0.4);
+}
+
+/* ===== VERGLEICH ===== */
+.compare{
+    margin-top:40px;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+.compare table{
+    width:100%;
+    border-collapse:collapse;
+    background:rgba(0,0,0,0.45);
+}
+
+.compare th, .compare td{
+    padding:14px;
+    text-align:center;
+    font-size:14px;
+}
+
+.compare th{
+    background:rgba(30,144,255,0.2);
+    font-family:'Orbitron', sans-serif;
+}
+
+.compare tr:nth-child(even){
+    background:rgba(255,255,255,0.05);
+}
+
+/* ===== FOOTER ===== */
+footer{
+    text-align:center;
+    padding:40px 20px;
+    font-size:14px;
+    opacity:0.6;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+    to{ opacity:1; transform:translateY(0); }
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+    header h1{ font-size:34px; }
+    header p{ font-size:16px; }
+    h2{ font-size:22px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+FDP • WIRTSCHAFT • FREIHEIT • FORTSCHRITT • POLITIK •
+</div>
+
+<header>
+    <h1>Politik der FDP Schweiz</h1>
+    <p>
+        Die FDP.Die Liberalen verfolgt eine liberale Politik, die Freiheit,
+        Eigenverantwortung und wirtschaftlichen Erfolg miteinander verbindet.
+    </p>
+</header>
+
+<section>
+    <h2>📌 Zentrale politische Positionen der FDP</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>💼 Wirtschaft</h3>
+            <p>
+                Die FDP setzt auf freien Markt, Wettbewerb und tiefe Steuern,
+                um Innovation und Arbeitsplätze zu fördern.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🏛️ Staat & Gesellschaft</h3>
+            <p>
+                Der Staat soll effizient und schlank sein.
+                Eigenverantwortung steht vor staatlicher Unterstützung.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🌱 Umwelt & Energie</h3>
+            <p>
+                Die FDP unterstützt Klimaschutz durch Innovation,
+                Technologie und marktwirtschaftliche Lösungen.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>🌍 Aussenpolitik</h3>
+            <p>
+                Die FDP befürwortet offene Märkte,
+                internationale Zusammenarbeit und stabile Beziehungen zur EU.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>⚖️ Vergleich mit anderen Schweizer Parteien</h2>
+
+    <div class="compare">
+        <table>
+            <tr>
+                <th>Thema</th>
+                <th>FDP</th>
+                <th>SP</th>
+                <th>SVP</th>
+                <th>Grüne</th>
+            </tr>
+            <tr>
+                <td>Wirtschaft</td>
+                <td>Freier Markt</td>
+                <td>Starker Staat</td>
+                <td>National orientiert</td>
+                <td>Ökologisch reguliert</td>
+            </tr>
+            <tr>
+                <td>Steuern</td>
+                <td>Tief</td>
+                <td>Höher</td>
+                <td>Tief</td>
+                <td>Mittel / Hoch</td>
+            </tr>
+            <tr>
+                <td>Umwelt</td>
+                <td>Innovation</td>
+                <td>Regulierung</td>
+                <td>Skeptisch</td>
+                <td>Strenge Regeln</td>
+            </tr>
+            <tr>
+                <td>EU</td>
+                <td>Kooperation</td>
+                <td>Offen</td>
+                <td>Ablehnend</td>
+                <td>Offen</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<footer>
+    © 2025 – Politik & Vergleich der FDP Schweiz
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wichtige Personen der FDP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BASIS ===== */
+body{
+    margin:0;
+    font-family:'Share Tech Mono', monospace;
+    background:linear-gradient(135deg,#000814,#001d3d);
+    color:#e6f1ff;
+    overflow-x:hidden;
+}
+
+/* ===== ANIMIERTER HINTERGRUND ===== */
+.bg-text{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    opacity:0.05;
+    font-size:60px;
+    white-space:nowrap;
+    animation: slideBg 45s linear infinite;
+}
+
+@keyframes slideBg{
+    from{transform:translateX(-100%);}
+    to{transform:translateX(100%);}
+}
+
+/* ===== HEADER ===== */
+header{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:90px 20px 60px;
+}
+
+header h1{
+    font-family:'Orbitron', sans-serif;
+    font-size:48px;
+    text-shadow:0 0 25px #1e90ff;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 15px #1e90ff; }
+    to{ text-shadow:0 0 40px #1e90ff; }
+}
+
+header p{
+    max-width:750px;
+    margin:25px auto 0;
+    font-size:18px;
+    opacity:0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay:1s;
+}
+
+/* ===== GRID ===== */
+section{
+    position:relative;
+    z-index:2;
+    max-width:1200px;
+    margin:60px auto;
+    padding:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:35px;
+}
+
+/* ===== PERSON CARD ===== */
+.card{
+    background:rgba(0,0,0,0.45);
+    border:1px solid rgba(30,144,255,0.3);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 0 30px rgba(30,144,255,0.15);
+    opacity:0;
+    transform:translateY(30px);
+    animation: fadeUp 1.4s ease forwards;
+}
+
+.card:nth-child(1){animation-delay:.2s}
+.card:nth-child(2){animation-delay:.4s}
+.card:nth-child(3){animation-delay:.6s}
+.card:nth-child(4){animation-delay:.8s}
+
+.card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    filter:grayscale(20%);
+    transition:transform .4s ease, filter .4s ease;
+}
+
+.card:hover img{
+    transform:scale(1.08);
+    filter:grayscale(0%);
+}
+
+.card-content{
+    padding:25px;
+    text-align:center;
+}
+
+.card-content h3{
+    font-family:'Orbitron', sans-serif;
+    font-size:20px;
+    color:#7fc8ff;
+}
+
+.card-content span{
+    display:block;
+    margin-top:8px;
+    font-size:14px;
+    color:#9fdfff;
+    opacity:.8;
+}
+
+.card-content p{
+    font-size:14px;
+    line-height:1.6;
+    margin-top:15px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    text-align:center;
+    padding:40px 20px;
+    font-size:14px;
+    opacity:.6;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+    header h1{font-size:34px;}
+    header p{font-size:16px;}
+    .card img{height:260px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-text">
+FDP • LIBERALE • SCHWEIZ • POLITIK •
+</div>
+
+<header>
+    <h1>Wichtige Personen der FDP</h1>
+    <p>
+        Die FDP.Die Liberalen wird von engagierten Persönlichkeiten geprägt,
+        die sich für Freiheit, Verantwortung und Fortschritt einsetzen.
+    </p>
+</header>
+
+<section>
+    <div class="grid">
+
+        <div class="card">
+            <img src="Thierry.jpg" alt="Thierry Burkart">
+            <div class="card-content">
+                <h3>Thierry Burkart</h3>
+                <span>Parteipräsident FDP Schweiz</span>
+                <p>
+                    Setzt sich für eine liberale Schweiz, Eigenverantwortung
+                    und eine starke Wirtschaft ein.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="Karin keller.webp" alt="Karin Keller-Sutter">
+            <div class="card-content">
+                <h3>Karin Keller-Sutter</h3>
+                <span>Bundesrätin</span>
+                <p>
+                    Steht für Stabilität, Sicherheit und eine
+                    verantwortungsvolle Finanzpolitik.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="ignazio-cassis-8157.jpg" alt="Ignazio Cassis">
+            <div class="card-content">
+                <h3>Ignazio Cassis</h3>
+                <span>Bundesrat</span>
+                <p>
+                    Engagiert sich für eine offene Aussenpolitik
+                    und internationale Zusammenarbeit.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="Petra Gössi.webp" alt="Petra Gössi">
+            <div class="card-content">
+                <h3>Petra Gössi</h3>
+                <span>Ehem. Parteipräsidentin</span>
+                <p>
+                    Fördert Innovation, Nachhaltigkeit
+                    und die Rolle der Schweiz im globalen Umfeld.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    © 2025 – Wichtige Persönlichkeiten der FDP Schweiz
+</footer>
+
+</body>
+</html>
