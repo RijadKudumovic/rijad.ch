@@ -14,10 +14,15 @@
       overflow-x: hidden;
     }
 
-    /* 🎞️ Hintergrund-GIF */
     body {
-      background: url("hintergrundinteresse.gif") no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(-45deg, #030915, #07253a, #171044, #031921);
+      background-size: 300% 300%;
+      animation: ambientShift 18s ease infinite;
+    }
+
+    @keyframes ambientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     /* Halbtransparente Overlay für bessere Lesbarkeit */

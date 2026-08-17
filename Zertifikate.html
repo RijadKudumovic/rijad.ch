@@ -8,15 +8,15 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: url('background.gif') no-repeat center center fixed; /* Dein Hintergrund-GIF */
-      background-size: cover;
+      background: linear-gradient(-45deg, #020713, #07223a, #181044, #03151f);
+      background-size: 300% 300%;
+      animation: ambientShift 18s ease infinite;
       color: white;
     }
 
-     /* 🎞️ Hintergrund-GIF */
-    body {
-      background: url("ZertifikatHintergrund.gif") no-repeat center center fixed;
-      background-size: cover;
+    @keyframes ambientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
         /* Halbtransparente Overlay für bessere Lesbarkeit */

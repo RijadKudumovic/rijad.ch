@@ -16,9 +16,15 @@
       height: 100%;
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: url('FamilienHintergrund.gif') no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(-45deg, #070b14, #172e40, #26163e, #081722);
+      background-size: 300% 300%;
+      animation: ambientShift 20s ease infinite;
       color: var(--text);
+    }
+
+    @keyframes ambientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .overlay {
