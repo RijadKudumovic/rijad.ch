@@ -32,6 +32,7 @@
       <span class="sr-only">Navigation öffnen</span><span></span><span></span><span></span>
     </button>
     <nav class="site-nav" id="site-navigation" aria-label="Hauptnavigation" data-menu>
+      <a href="#video">Bewerbungsvideo</a>
       <a href="#ueber-mich">Über mich</a>
       <a href="#projekte">Projekte</a>
       <a href="#kompetenzen">Kompetenzen</a>
@@ -78,7 +79,35 @@
         <span class="floating-tag floating-tag--two">Code</span>
         <span class="floating-tag floating-tag--three">Kreativität</span>
       </div>
-      <a class="scroll-cue" href="#ueber-mich" aria-label="Weiter zu Über mich"><span></span>Scrollen</a>
+      <a class="scroll-cue" href="#video" aria-label="Weiter zum Bewerbungsvideo"><span></span>Scrollen</a>
+    </section>
+
+    <section class="video-section section-shell section-pad" id="video">
+      <div class="section-heading section-heading--split reveal">
+        <div>
+          <p class="section-kicker">Bewerbungsvideo</p>
+          <h2>Persönlich vorgestellt.<br><span class="gradient-text">In etwas über zwei Minuten.</span></h2>
+        </div>
+        <p>Ein kurzer Einblick in meine Interessen, Projekte und Motivation für eine Ausbildung in Informatik oder Mediamatik.</p>
+      </div>
+
+      <article class="video-card reveal" data-delay="100">
+        <div class="video-card__top">
+          <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span class="video-card__filename">bewerbungsvideo.mp4</span>
+          <span class="video-card__duration">02:15</span>
+        </div>
+        <div class="video-frame">
+          <video controls playsinline preload="metadata" aria-label="Bewerbungsvideo von Rijad Kudumovic">
+            <source src="bewerbungsvideo.mp4" type="video/mp4">
+            Ihr Browser kann dieses Video nicht wiedergeben. <a href="bewerbungsvideo.mp4">Video herunterladen</a>.
+          </video>
+        </div>
+        <div class="video-card__footer">
+          <span class="video-card__label"><i aria-hidden="true"></i> Persönliche Vorstellung</span>
+          <span>Informatik · Mediamatik · Projekte</span>
+        </div>
+      </article>
     </section>
 
     <section class="about section-shell section-pad" id="ueber-mich">
