@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>3D-Modelle der Elemente — Export (glTF)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#06121a; --accent:#00e0c8; --card:rgba(255,255,255,0.03) }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#031016,#071827);color:#dff;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+  header h1{margin:0;color:var(--accent);font-size:18px}
+  main{display:grid;grid-template-columns:420px 1fr;gap:14px;padding:14px;height:calc(100vh - 64px)}
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.03);overflow:auto}
+  .periodic{display:grid;grid-template-columns:repeat(18,1fr);gap:6px}
+  .element{background:rgba(255,255,255,0.02);border-radius:6px;padding:6px;text-align:center;cursor:pointer;min-height:62px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1px solid rgba(0,0,0,0.25);transition:transform .12s,box-shadow .12s}
+  .element:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.55)}
+  .sym{font-weight:700;color:var(--accent);font-size:16px}
+  .anum{font-size:11px;opacity:.85}
+  .name{font-size:11px;opacity:.95;margin-top:6px}
+  .viewer{border-radius:10px;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+  #canvas-wrap{flex:1;min-height:540px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.2))}
+  #info{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.03)}
+  .chip{background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:8px;color:var(--accent)}
+  button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}
+  button:hover{box-shadow:0 12px 30px rgba(0,0,0,0.5)}
+  footer{padding:8px 14px;font-size:13px;opacity:0.8;display:flex;justify-content:space-between}
+  @media (max-width:1000px){main{grid-template-columns:1fr} .panel{height:50vh} #canvas-wrap{min-height:360px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Periodensystem der Elemente: interaktiv</h1>
+  <div style="display:flex;gap:10px;align-items:center">
+    <div class="chip">Das Periodensystem</div>
+  </div>
+</header>
+
+<main>
+  <div class="panel" aria-label="Periodensystem">
+    <h3 style="margin:6px 6px 12px;color:var(--accent)">Periodensystem: Klicke ein Element</h3>
+    <div class="periodic" id="periodic"></div>
+  </div>
+
+  <div class="viewer panel">
+    <div id="canvas-wrap">
+      <div id="placeholder" style="text-align:center;opacity:0.85">
+        <div style="font-size:20px;color:var(--accent);font-weight:700">Wähle ein Element</div>
+        <div style="margin-top:8px;opacity:0.85">Infos vom Molekül erscheint hier</div>
+      </div>
+    </div>
+
+    <div id="info">
+      <div>
+        <div id="elem-title" style="font-weight:700">—</div>
+        <div id="elem-sub" style="opacity:0.8;font-size:13px">—</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="chip" id="atom-mass">—</div>
+        <div class="chip" id="atom-phase">—</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div></div>
+  <div>© 2025 Rijad Kudumovic</div>
+</footer>
+
+<!-- Three.js + Extras -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/exporters/GLTFExporter.js"></script>
+
+<script>
+/* -----------------------
+   Vollständige ELEMENTS-Liste (kompakt)
+   (Ordnungszahl, Symbol, Name, atomare Masse, Kategorie, Phase, Farbe, Schalen, Kurzbeschreibung)
+   ----------------------- */
+const ELEMENTS = [
+  { z:1,sym:'H',name:'Wasserstoff',atomicMass:1.008,category:'Nichtmetall',phase:'Gas',color:0xFFFFFF,shells:[1],desc:'Leichtestes Element.' },
+  { z:2,sym:'He',name:'Helium',atomicMass:4.0026,category:'Edelgas',phase:'Gas',color:0xfff8d6,shells:[2],desc:'Inertgas.' },
+  { z:3,sym:'Li',name:'Lithium',atomicMass:6.94,category:'Alkalimetall',phase:'Fest',color:0xcc9966,shells:[2,1],desc:'Batterie-Metall.' },
+  { z:4,sym:'Be',name:'Beryllium',atomicMass:9.0122,category:'Erdalkalimetall',phase:'Fest',color:0xa3c9f1,shells:[2,2],desc:'Leicht & steif.' },
+  { z:5,sym:'B',name:'Bor',atomicMass:10.81,category:'Metalloid',phase:'Fest',color:0xffb86b,shells:[2,3],desc:'Keramik & Halbleiter.' },
+  { z:6,sym:'C',name:'Kohlenstoff',atomicMass:12.011,category:'Nichtmetall',phase:'Fest',color:0x999999,shells:[2,4],desc:'Grundstoff des Lebens.' },
+  { z:7,sym:'N',name:'Stickstoff',atomicMass:14.007,category:'Nichtmetall',phase:'Gas',color:0x3da0ff,shells:[2,5],desc:'Gasförmig, Luftbestandteil.' },
+  { z:8,sym:'O',name:'Sauerstoff',atomicMass:15.999,category:'Nichtmetall',phase:'Gas',color:0x1fa2ff,shells:[2,6],desc:'Atmungs- & Verbrennungselement.' },
+  { z:9,sym:'F',name:'Fluor',atomicMass:18.998,category:'Halogen',phase:'Gas',color:0xb9f27a,shells:[2,7],desc:'Sehr reaktiv.' },
+  { z:10,sym:'Ne',name:'Neon',atomicMass:20.180,category:'Edelgas',phase:'Gas',color:0xffd7a8,shells:[2,8],desc:'Leuchtröhren.' },
+
+  { z:11,sym:'Na',name:'Natrium',atomicMass:22.990,category:'Alkalimetall',phase:'Fest',color:0xa3e6ff,shells:[2,8,1],desc:'Reaktiv, in Salzen.' },
+  { z:12,sym:'Mg',name:'Magnesium',atomicMass:24.305,category:'Erdalkalimetall',phase:'Fest',color:0xaaffaa,shells:[2,8,2],desc:'Leichtes Metall.' },
+  { z:13,sym:'Al',name:'Aluminium',atomicMass:26.982,category:'Metall',phase:'Fest',color:0xd1d1d1,shells:[2,8,3],desc:'Weit verbreitetes Metall.' },
+  { z:14,sym:'Si',name:'Silicium',atomicMass:28.085,category:'Metalloid',phase:'Fest',color:0xffc27a,shells:[2,8,4],desc:'Halbleitergrundstoff.' },
+  { z:15,sym:'P',name:'Phosphor',atomicMass:30.974,category:'Nichtmetall',phase:'Fest',color:0xffe27a,shells:[2,8,5],desc:'Biochemisch wichtig.' },
+  { z:16,sym:'S',name:'Schwefel',atomicMass:32.06,category:'Nichtmetall',phase:'Fest',color:0xfff27a,shells:[2,8,6],desc:'Dünger & Chemie.' },
+  { z:17,sym:'Cl',name:'Chlor',atomicMass:35.45,category:'Halogen',phase:'Gas',color:0xaaff66,shells:[2,8,7],desc:'Desinfektion.' },
+  { z:18,sym:'Ar',name:'Argon',atomicMass:39.948,category:'Edelgas',phase:'Gas',color:0xfff6d2,shells:[2,8,8],desc:'Inertgas.' },
+  { z:19,sym:'K',name:'Kalium',atomicMass:39.098,category:'Alkalimetall',phase:'Fest',color:0xffb3b3,shells:[2,8,8,1],desc:'Biologisch wichtig.' },
+  { z:20,sym:'Ca',name:'Calcium',atomicMass:40.078,category:'Erdalkalimetall',phase:'Fest',color:0xaaffaa,shells:[2,8,8,2],desc:'Knochenbau.' },
+
+  { z:21,sym:'Sc',name:'Scandium',atomicMass:44.956,category:'Übergangsmetall',phase:'Fest',color:0xc2d6ff,shells:[2,8,9,2],desc:'Seltenes Übergangsmetall.' },
+  { z:22,sym:'Ti',name:'Titan',atomicMass:47.867,category:'Übergangsmetall',phase:'Fest',color:0xb0c4de,shells:[2,8,10,2],desc:'Korrosionsbeständig.' },
+  { z:23,sym:'V',name:'Vanadium',atomicMass:50.942,category:'Übergangsmetall',phase:'Fest',color:0xccaa88,shells:[2,8,11,2],desc:'Stahllegierungen.' },
+  { z:24,sym:'Cr',name:'Chrom',atomicMass:51.996,category:'Übergangsmetall',phase:'Fest',color:0x99c1ff,shells:[2,8,13,1],desc:'Beschichtungen.' },
+  { z:25,sym:'Mn',name:'Mangan',atomicMass:54.938,category:'Übergangsmetall',phase:'Fest',color:0xffcfa8,shells:[2,8,13,2],desc:'Stahlindustrie.' },
+  { z:26,sym:'Fe',name:'Eisen',atomicMass:55.845,category:'Übergangsmetall',phase:'Fest',color:0xff6a6a,shells:[2,8,14,2],desc:'Industriell zentral.' },
+  { z:27,sym:'Co',name:'Cobalt',atomicMass:58.933,category:'Übergangsmetall',phase:'Fest',color:0xff8c8c,shells:[2,8,15,2],desc:'Magnetische Legierungen.' },
+  { z:28,sym:'Ni',name:'Nickel',atomicMass:58.693,category:'Übergangsmetall',phase:'Fest',color:0xd1d1d1,shells:[2,8,16,2],desc:'Edelstahl, Legierungen.' },
+  { z:29,sym:'Cu',name:'Kupfer',atomicMass:63.546,category:'Übergangsmetall',phase:'Fest',color:0xff7f50,shells:[2,8,18,1],desc:'Elektrische Leitfähigkeit.' },
+  { z:30,sym:'Zn',name:'Zink',atomicMass:65.38,category:'Übergangsmetall',phase:'Fest',color:0xaaffaa,shells:[2,8,18,2],desc:'Korrosionsschutz.' },
+
+  { z:31,sym:'Ga',name:'Gallium',atomicMass:69.723,category:'Post-Übergangsmetall',phase:'Fest',color:0xdcdcdc,shells:[2,8,18,3],desc:'Halbleiterkontakt.' },
+  { z:32,sym:'Ge',name:'Germanium',atomicMass:72.630,category:'Metalloid',phase:'Fest',color:0xffd7b5,shells:[2,8,18,4],desc:'Optoelektronik.' },
+  { z:33,sym:'As',name:'Arsen',atomicMass:74.922,category:'Metalloid',phase:'Fest',color:0xffcc88,shells:[2,8,18,5],desc:'Toxisch; Legierungen.' },
+  { z:34,sym:'Se',name:'Selen',atomicMass:78.971,category:'Nichtmetall',phase:'Fest',color:0xffe0a8,shells:[2,8,18,6],desc:'Elektronik & Chemie.' },
+  { z:35,sym:'Br',name:'Brom',atomicMass:79.904,category:'Halogen',phase:'Flüssig',color:0xa36b55,shells:[2,8,18,7],desc:'Flüssiges Halogen.' },
+  { z:36,sym:'Kr',name:'Krypton',atomicMass:83.798,category:'Edelgas',phase:'Gas',color:0xfff1d9,shells:[2,8,18,8],desc:'Leuchtmittel.' },
+  { z:37,sym:'Rb',name:'Rubidium',atomicMass:85.468,category:'Alkalimetall',phase:'Fest',color:0xffc0c0,shells:[2,8,18,8,1],desc:'Reaktiv, Spezialanwendungen.' },
+  { z:38,sym:'Sr',name:'Strontium',atomicMass:87.62,category:'Erdalkalimetall',phase:'Fest',color:0xffdfb5,shells:[2,8,18,8,2],desc:'Pyrotechnik.' },
+  { z:39,sym:'Y',name:'Yttrium',atomicMass:88.906,category:'Übergangsmetall',phase:'Fest',color:0xcfe6ff,shells:[2,8,18,9,2],desc:'Leuchtstoffe.' },
+  { z:40,sym:'Zr',name:'Zirkonium',atomicMass:91.224,category:'Übergangsmetall',phase:'Fest',color:0xcad7e8,shells:[2,8,18,10,2],desc:'Korrosionsbeständig.' },
+
+  { z:41,sym:'Nb',name:'Niob',atomicMass:92.906,category:'Übergangsmetall',phase:'Fest',color:0xd0c0ff,shells:[2,8,18,13,2],desc:'Superlegierungen.' },
+  { z:42,sym:'Mo',name:'Molybdän',atomicMass:95.95,category:'Übergangsmetall',phase:'Fest',color:0xc5c5c5,shells:[2,8,18,13,3],desc:'Hohe Temperaturfestigkeit.' },
+  { z:43,sym:'Tc',name:'Technetium',atomicMass:97.907,category:'Übergangsmetall',phase:'Fest',color:0xcccccc,shells:[2,8,18,13,4],desc:'Radioaktiv, künstlich.' },
+  { z:44,sym:'Ru',name:'Ruthenium',atomicMass:101.07,category:'Übergangsmetall',phase:'Fest',color:0xd1e6ff,shells:[2,8,18,15,1],desc:'Katalysatoren.' },
+  { z:45,sym:'Rh',name:'Rhodium',atomicMass:102.91,category:'Übergangsmetall',phase:'Fest',color:0xe6f2ff,shells:[2,8,18,16,1],desc:'Sehr selten; Katalysatoren.' },
+  { z:46,sym:'Pd',name:'Palladium',atomicMass:106.42,category:'Übergangsmetall',phase:'Fest',color:0xe0e0ff,shells:[2,8,18,18,1],desc:'Katalyse & Elektronik.' },
+  { z:47,sym:'Ag',name:'Silber',atomicMass:107.87,category:'Übergangsmetall',phase:'Fest',color:0xc0c0c0,shells:[2,8,18,18,1],desc:'Leitfähigkeit & Schmuck.' },
+  { z:48,sym:'Cd',name:'Cadmium',atomicMass:112.41,category:'Übergangsmetall',phase:'Fest',color:0xffcfcf,shells:[2,8,18,18,2],desc:'Toxisch, Batterien.' },
+  { z:49,sym:'In',name:'Indium',atomicMass:114.82,category:'Post-Übergangsmetall',phase:'Fest',color:0xdedede,shells:[2,8,18,18,3],desc:'Elektronik.' },
+  { z:50,sym:'Sn',name:'Zinn',atomicMass:118.71,category:'Post-Übergangsmetall',phase:'Fest',color:0xffe5b4,shells:[2,8,18,18,4],desc:'Lötlegierungen.' },
+
+  { z:51,sym:'Sb',name:'Antimon',atomicMass:121.76,category:'Metalloid',phase:'Fest',color:0xffd8b8,shells:[2,8,18,18,5],desc:'Legierungen.' },
+  { z:52,sym:'Te',name:'Tellur',atomicMass:127.60,category:'Metalloid',phase:'Fest',color:0xffe6c2,shells:[2,8,18,18,6],desc:'Halbleiteranwendungen.' },
+  { z:53,sym:'I',name:'Iod',atomicMass:126.90,category:'Halogen',phase:'Fest',color:0xa6b3ff,shells:[2,8,18,18,7],desc:'Schilddrüsenfunktion.' },
+  { z:54,sym:'Xe',name:'Xenon',atomicMass:131.29,category:'Edelgas',phase:'Gas',color:0xfff7e6,shells:[2,8,18,18,8],desc:'Lampen & Anästhesie.' },
+  { z:55,sym:'Cs',name:'Cäsium',atomicMass:132.91,category:'Alkalimetall',phase:'Fest',color:0xffc8c8,shells:[2,8,18,18,8,1],desc:'Atomuhren.' },
+  { z:56,sym:'Ba',name:'Barium',atomicMass:137.33,category:'Erdalkalimetall',phase:'Fest',color:0xffe6a8,shells:[2,8,18,18,8,2],desc:'Pyrotechnik & Kontrastmittel.' },
+  { z:57,sym:'La',name:'Lanthan',atomicMass:138.91,category:'Lanthanoid',phase:'Fest',color:0xfff0d6,shells:[2,8,18,19,9,2],desc:'Seltene Erde.' },
+  { z:58,sym:'Ce',name:'Cer',atomicMass:140.12,category:'Lanthanoid',phase:'Fest',color:0xfff5d6,shells:[2,8,18,21,8,2],desc:'Katalysatoren.' },
+  { z:59,sym:'Pr',name:'Praseodym',atomicMass:140.91,category:'Lanthanoid',phase:'Fest',color:0xfff6d6,shells:[2,8,18,21,9,2],desc:'Magnetlegierungen.' },
+  { z:60,sym:'Nd',name:'Neodym',atomicMass:144.24,category:'Lanthanoid',phase:'Fest',color:0xfff7d6,shells:[2,8,18,22,8,2],desc:'Starke Magnete.' },
+
+  { z:61,sym:'Pm',name:'Promethium',atomicMass:145,category:'Lanthanoid',phase:'Fest',color:0xffdede,shells:[2,8,18,23,8,2],desc:'Radioaktiv & selten.' },
+  { z:62,sym:'Sm',name:'Samarium',atomicMass:150.36,category:'Lanthanoid',phase:'Fest',color:0xfff9d6,shells:[2,8,18,24,8,2],desc:'Magnetanwendungen.' },
+  { z:63,sym:'Eu',name:'Europium',atomicMass:151.97,category:'Lanthanoid',phase:'Fest',color:0xfffbd6,shells:[2,8,18,25,8,2],desc:'Leuchtstoffe.' },
+  { z:64,sym:'Gd',name:'Gadolinium',atomicMass:157.25,category:'Lanthanoid',phase:'Fest',color:0xfffcd6,shells:[2,8,18,25,9,2],desc:'Kontrastmittel.' },
+  { z:65,sym:'Tb',name:'Terbium',atomicMass:158.93,category:'Lanthanoid',phase:'Fest',color:0xfffdd6,shells:[2,8,18,27,8,2],desc:'Leuchtstoffe.' },
+  { z:66,sym:'Dy',name:'Dysprosium',atomicMass:162.50,category:'Lanthanoid',phase:'Fest',color:0xfffed6,shells:[2,8,18,28,8,2],desc:'Magnetische Werkstoffe.' },
+  { z:67,sym:'Ho',name:'Holmium',atomicMass:164.93,category:'Lanthanoid',phase:'Fest',color:0xfffef0,shells:[2,8,18,29,8,2],desc:'Speziell in Magneten.' },
+  { z:68,sym:'Er',name:'Erbium',atomicMass:167.26,category:'Lanthanoid',phase:'Fest',color:0xfffef5,shells:[2,8,18,30,8,2],desc:'Laser & Glas.' },
+  { z:69,sym:'Tm',name:'Thulium',atomicMass:168.93,category:'Lanthanoid',phase:'Fest',color:0xfffff0,shells:[2,8,18,31,8,2],desc:'Sehr selten.' },
+  { z:70,sym:'Yb',name:'Ytterbium',atomicMass:173.05,category:'Lanthanoid',phase:'Fest',color:0xfffff5,shells:[2,8,18,32,8,2],desc:'Uhrenforschung.' },
+
+  { z:71,sym:'Lu',name:'Lutetium',atomicMass:174.97,category:'Lanthanoid',phase:'Fest',color:0xfffff8,shells:[2,8,18,32,9,2],desc:'Katalyse.' },
+  { z:72,sym:'Hf',name:'Hafnium',atomicMass:178.49,category:'Übergangsmetall',phase:'Fest',color:0xd6e6ff,shells:[2,8,18,32,10,2],desc:'Kerntechnik.' },
+  { z:73,sym:'Ta',name:'Tantal',atomicMass:180.95,category:'Übergangsmetall',phase:'Fest',color:0xe6e6ff,shells:[2,8,18,32,11,2],desc:'Kondensatoren.' },
+  { z:74,sym:'W',name:'Wolfram',atomicMass:183.84,category:'Übergangsmetall',phase:'Fest',color:0xbdbdbd,shells:[2,8,18,32,12,2],desc:'Sehr hoher Schmelzpunkt.' },
+  { z:75,sym:'Re',name:'Rhenium',atomicMass:186.21,category:'Übergangsmetall',phase:'Fest',color:0xcfcfcf,shells:[2,8,18,32,13,2],desc:'Hochtemperaturlegierungen.' },
+  { z:76,sym:'Os',name:'Osmium',atomicMass:190.23,category:'Übergangsmetall',phase:'Fest',color:0xb8c6ff,shells:[2,8,18,32,14,2],desc:'Sehr dichtes Metall.' },
+  { z:77,sym:'Ir',name:'Iridium',atomicMass:192.22,category:'Übergangsmetall',phase:'Fest',color:0xdfefff,shells:[2,8,18,33,15,2],desc:'Korrosionsbeständig.' },
+  { z:78,sym:'Pt',name:'Platin',atomicMass:195.08,category:'Übergangsmetall',phase:'Fest',color:0xeaeefc,shells:[2,8,18,32,17,1],desc:'Edelmetall.' },
+  { z:79,sym:'Au',name:'Gold',atomicMass:196.97,category:'Übergangsmetall',phase:'Fest',color:0xffd700,shells:[2,8,18,32,18,1],desc:'Wertmetall.' },
+  { z:80,sym:'Hg',name:'Quecksilber',atomicMass:200.59,category:'Übergangsmetall',phase:'Flüssig',color:0xc0d6ff,shells:[2,8,18,32,18,2],desc:'Flüssiges Metall; toxisch.' },
+
+  { z:81,sym:'Tl',name:'Thallium',atomicMass:204.38,category:'Post-Übergangsmetall',phase:'Fest',color:0xd9c6b8,shells:[2,8,18,32,18,3],desc:'Toxisch.' },
+  { z:82,sym:'Pb',name:'Blei',atomicMass:207.2,category:'Post-Übergangsmetall',phase:'Fest',color:0xb8b8b8,shells:[2,8,18,32,18,4],desc:'Schweres Metall.' },
+  { z:83,sym:'Bi',name:'Bismut',atomicMass:208.98,category:'Post-Übergangsmetall',phase:'Fest',color:0xffe0d0,shells:[2,8,18,32,18,5],desc:'Wenig toxisch.' },
+  { z:84,sym:'Po',name:'Polonium',atomicMass:209,category:'Radioaktiv',phase:'Fest',color:0xffe6e6,shells:[2,8,18,32,18,6],desc:'Radioaktiv.' },
+  { z:85,sym:'At',name:'Astat',atomicMass:210,category:'Radioaktiv',phase:'Fest',color:0xffdede,shells:[2,8,18,32,18,7],desc:'Extrem selten.' },
+  { z:86,sym:'Rn',name:'Radon',atomicMass:222,category:'Edelgas (radioaktiv)',phase:'Gas',color:0xfff7e6,shells:[2,8,18,32,18,8],desc:'Radioaktives Edelgas.' },
+  { z:87,sym:'Fr',name:'Francium',atomicMass:223,category:'Alkalimetall (radioaktiv)',phase:'Fest',color:0xffdcdc,shells:[2,8,18,32,18,8,1],desc:'Extrem selten.' },
+  { z:88,sym:'Ra',name:'Radium',atomicMass:226,category:'Erdalkalimetall (radioaktiv)',phase:'Fest',color:0xfff0b3,shells:[2,8,18,32,18,8,2],desc:'Radioaktiv.' },
+  { z:89,sym:'Ac',name:'Actinium',atomicMass:227,category:'Actinoid',phase:'Fest',color:0xfff2d6,shells:[2,8,18,32,20,9,2],desc:'Radioaktiv.' },
+
+  { z:90,sym:'Th',name:'Thorium',atomicMass:232.04,category:'Actinoid',phase:'Fest',color:0xfff4d6,shells:[2,8,18,32,21,9,2],desc:'Natürl. radioaktiv.' },
+  { z:91,sym:'Pa',name:'Protactinium',atomicMass:231.04,category:'Actinoid',phase:'Fest',color:0xffefe6,shells:[2,8,18,32,22,9,2],desc:'Sehr selten.' },
+  { z:92,sym:'U',name:'Uran',atomicMass:238.03,category:'Actinoid',phase:'Fest',color:0xffefe0,shells:[2,8,18,32,21,9,2],desc:'Kernbrennstoff.' },
+  { z:93,sym:'Np',name:'Neptunium',atomicMass:237,category:'Actinoid (radioaktiv)',phase:'Fest',color:0xffe8e8,shells:[2,8,18,32,22,10,2],desc:'Künstlich.' },
+  { z:94,sym:'Pu',name:'Plutonium',atomicMass:244,category:'Actinoid',phase:'Fest',color:0xffe0e0,shells:[2,8,18,32,24,10,2],desc:'Kernmaterial.' },
+  { z:95,sym:'Am',name:'Americium',atomicMass:243,category:'Actinoid',phase:'Fest',color:0xffdfdf,shells:[2,8,18,32,25,11,2],desc:'In Rauchmeldern.' },
+  { z:96,sym:'Cm',name:'Curium',atomicMass:247,category:'Actinoid',phase:'Fest',color:0xffe6e6,shells:[2,8,18,32,26,12,2],desc:'Forschung.' },
+  { z:97,sym:'Bk',name:'Berkelium',atomicMass:247,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[2,8,18,32,27,12,2],desc:'Künstlich.' },
+  { z:98,sym:'Cf',name:'Californium',atomicMass:251,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[2,8,18,32,28,13,2],desc:'Neutronenquelle.' },
+  { z:99,sym:'Es',name:'Einsteinium',atomicMass:252,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[2,8,18,32,29,14,2],desc:'Forschung.' },
+
+  { z:100,sym:'Fm',name:'Fermium',atomicMass:257,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:101,sym:'Md',name:'Mendelevium',atomicMass:258,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:102,sym:'No',name:'Nobelium',atomicMass:259,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:103,sym:'Lr',name:'Lawrencium',atomicMass:266,category:'Actinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:104,sym:'Rf',name:'Rutherfordium',atomicMass:267,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:105,sym:'Db',name:'Dubnium',atomicMass:268,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:106,sym:'Sg',name:'Seaborgium',atomicMass:269,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:107,sym:'Bh',name:'Bohrium',atomicMass:270,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:108,sym:'Hs',name:'Hassium',atomicMass:269,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+
+  { z:109,sym:'Mt',name:'Meitnerium',atomicMass:278,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:110,sym:'Ds',name:'Darmstadtium',atomicMass:281,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:111,sym:'Rg',name:'Roentgenium',atomicMass:282,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:112,sym:'Cn',name:'Copernicium',atomicMass:285,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:113,sym:'Nh',name:'Nihonium',atomicMass:286,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:114,sym:'Fl',name:'Flerovium',atomicMass:289,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:115,sym:'Mc',name:'Moscovium',atomicMass:288,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:116,sym:'Lv',name:'Livermorium',atomicMass:293,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:117,sym:'Ts',name:'Tenness',atomicMass:294,category:'Transactinoid',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' },
+  { z:118,sym:'Og',name:'Oganesson',atomicMass:294,category:'Edelgas (theoretisch)',phase:'Fest',color:0xffdede,shells:[],desc:'Künstlich.' }
+];
+
+/* -------------------------
+   UI: render grid
+   ------------------------- */
+const periodicEl = document.getElementById('periodic');
+ELEMENTS.forEach(el => {
+  const d = document.createElement('div');
+  d.className = 'element';
+  d.dataset.sym = el.sym;
+  d.dataset.z = el.z;
+  d.innerHTML = `<div class="anum">${el.z}</div><div class="sym">${el.sym}</div><div class="name">${el.name}</div>`;
+  d.addEventListener('click', ()=> onElementClick(el));
+  periodicEl.appendChild(d);
+});
+
+/* -------------------------
+   Three.js preview setup
+   ------------------------- */
+let renderer, scene, camera, controls, previewGroup;
+const wrap = document.getElementById('canvas-wrap');
+
+function setupRenderer() {
+  wrap.innerHTML = '';
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+  renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+  renderer.setPixelRatio(window.devicePixelRatio||1);
+  renderer.setSize(w,h);
+  wrap.appendChild(renderer.domElement);
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x04121b);
+  camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 2000);
+  camera.position.set(0,0,6);
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  scene.add(new THREE.AmbientLight(0x999999, 0.6));
+  const pl = new THREE.PointLight(0xffffff, 0.9);
+  pl.position.set(6,6,6); scene.add(pl);
+  window.addEventListener('resize', ()=> {
+    if(!renderer) return;
+    const ww = wrap.clientWidth, hh = wrap.clientHeight;
+    renderer.setSize(ww, hh);
+    camera.aspect = ww/hh; camera.updateProjectionMatrix();
+  });
+}
+
+/* -------------------------
+   Modell-Bauer: Atom (Nucleus + Shells)
+   ------------------------- */
+function buildElement3D(el, options={}) {
+  // returns THREE.Group
+  const group = new THREE.Group();
+
+  // nucleus (core sphere)
+  const nucleusMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness:0.2, roughness:0.6 });
+  const nucleus = new THREE.Mesh(new THREE.SphereGeometry(0.6, 48, 36), nucleusMat);
+  group.add(nucleus);
+
+  // small nucleons as visual texture (limited number for performance)
+  const nucleonMat = new THREE.MeshStandardMaterial({ color: 0xff7f50, roughness:0.5, metalness:0.1 });
+  const nucleonCount = Math.min(el.z, 18);
+  for(let i=0;i<nucleonCount;i++){
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 10), nucleonMat);
+    const a = (i/nucleonCount)*Math.PI*2;
+    const r = 0.45 + Math.random()*0.2;
+    dot.position.set(Math.cos(a)*r, Math.sin(a)*r*0.6, (Math.random()-0.5)*0.3);
+    group.add(dot);
+  }
+
+  // electron shells: rings + electrons
+  const shells = el.shells || [];
+  shells.forEach((count, idx) => {
+    const radius = 1.2 + idx*0.9;
+    // ring
+    const ringGeo = new THREE.RingGeometry(radius-0.02, radius+0.02, 128);
+    const ringMat = new THREE.MeshBasicMaterial({ color: el.color || 0x00e0c8, side: THREE.DoubleSide, transparent:true, opacity:0.06 });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI/2;
+    group.add(ring);
+
+    // electrons
+    for(let i=0;i<count;i++){
+      const theta = (i/count) * Math.PI * 2;
+      const ex = Math.cos(theta) * radius;
+      const ey = Math.sin(theta) * radius * 0.85;
+      const ez = Math.sin(i*1.37) * 0.22;
+      const eMat = new THREE.MeshStandardMaterial({ color: 0x9fffe8, emissive:0x003030, roughness:0.3 });
+      const eMesh = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), eMat);
+      eMesh.position.set(ex, ey, ez);
+      group.add(eMesh);
+      // small orbital motion animation anchor
+      eMesh.userData = { orbitRadius: radius, angle: theta, speed: 0.002 + (idx*0.0008) };
+    }
+  });
+
+  // add label sprite with symbol
+  const sprite = makeTextSprite(el.sym, { fontsize:48, textColor:{r:255,g:255,b:255,a:1} });
+  sprite.position.set(0, - (0.6 + (shells.length*0.9)) - 0.35, 0);
+  group.add(sprite);
+
+  // add update function to animate electrons
+  group.userData = { animate: function(delta){
+    group.children.forEach(child=>{
+      if(child.type === "Mesh" && child.geometry && child.geometry.type === "SphereGeometry" && child.userData && child.userData.orbitRadius){
+        child.userData.angle += child.userData.speed * delta * 60;
+        const r = child.userData.orbitRadius;
+        child.position.x = Math.cos(child.userData.angle) * r;
+        child.position.y = Math.sin(child.userData.angle) * r * 0.85;
+      }
+    });
+  }};
+
+  return group;
+}
+
+/* small canvas text sprite */
+function makeTextSprite(message, parameters){
+  parameters = parameters || {};
+  const fontsize = parameters.fontsize || 24;
+  const fontface = parameters.fontface || 'Arial';
+  const textColor = parameters.textColor || {r:255,g:255,b:255,a:1};
+
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = fontsize + "px " + fontface;
+  const metrics = context.measureText(message);
+  const textWidth = Math.ceil(metrics.width);
+  canvas.width = textWidth + 20;
+  canvas.height = fontsize + 20;
+  context.font = fontsize + "px " + fontface;
+  context.fillStyle = `rgba(${textColor.r},${textColor.g},${textColor.b},${textColor.a})`;
+  context.fillText(message, 10, fontsize + 4);
+  const texture = new THREE.CanvasTexture(canvas);
+  const mat = new THREE.SpriteMaterial({ map: texture, transparent:true });
+  const sprite = new THREE.Sprite(mat);
+  const scale = 0.009 * canvas.width;
+  sprite.scale.set(scale, scale * (canvas.height / canvas.width), 1);
+  return sprite;
+}
+
+/* -------------------------
+   Klick-Handler: Element auswählen
+   ------------------------- */
+function onElementClick(el){
+  document.getElementById('elem-title').textContent = `${el.sym} — ${el.name}`;
+  document.getElementById('elem-sub').textContent = `Z = ${el.z} • ${el.category}`;
+  document.getElementById('atom-mass').textContent = `Masse: ${el.atomicMass} u`;
+  document.getElementById('atom-phase').textContent = `Zustand: ${el.phase}`;
+  document.getElementById('placeholder').style.display = 'none';
+
+  if(!renderer) setupRenderer();
+  // remove old
+  if(previewGroup){ scene.remove(previewGroup); previewGroup = null; }
+  previewGroup = buildElement3D(el);
+  scene.add(previewGroup);
+
+  // fit camera
+  const box = new THREE.Box3().setFromObject(previewGroup);
+  const size = box.getSize(new THREE.Vector3()).length();
+  const center = box.getCenter(new THREE.Vector3());
+  previewGroup.position.x += (previewGroup.position.x - center.x);
+  previewGroup.position.y += (previewGroup.position.y - center.y);
+  camera.position.set(center.x, center.y, size * 1.6 + 2);
+  camera.lookAt(center);
+
+  // render loop (with per-frame electron animation)
+  let last = performance.now();
+  renderer.setAnimationLoop((t) => {
+    const now = performance.now();
+    const delta = (now - last) / 1000;
+    last = now;
+    if(previewGroup && previewGroup.userData && previewGroup.userData.animate) previewGroup.userData.animate(delta);
+    previewGroup.rotation.y += 0.003;
+    controls.update();
+    renderer.render(scene, camera);
+  });
+}
+
+/* -------------------------
+   glTF Export (aktives Modell)
+   ------------------------- */
+const downloadBtn = document.getElementById('downloadBtn');
+downloadBtn.addEventListener('click', ()=> {
+  if(!previewGroup){
+    alert('Bitte wähle zuerst ein Element aus, das exportiert werden soll.');
+    return;
+  }
+  const exporter = new THREE.GLTFExporter();
+  const options = { binary: false, trs: false, onlyVisible: true, truncateDrawRange: true, embedImages: true };
+  exporter.parse(previewGroup, function(result){
+    let output;
+    if(result instanceof ArrayBuffer){
+      // binary glb (not used here)
+      output = result;
+      saveArrayBuffer(output, `${previewGroup.uuid || 'element'}.glb`);
+    } else {
+      output = JSON.stringify(result, null, 2);
+      saveString(output, `${document.getElementById('elem-title').textContent.replace(/\s+/g,'_')}.gltf`);
+    }
+  }, options);
+});
+
+function saveString(text, filename){
+  save(new Blob([text], {type: 'text/plain'}), filename);
+}
+function saveArrayBuffer(buffer, filename){
+  save(new Blob([buffer], {type: 'application/octet-stream'}), filename);
+}
+function save(blob, filename){
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(()=>{ URL.revokeObjectURL(link.href); link.remove(); }, 100);
+}
+
+/* -------------------------
+   Initialize (optional)
+   ------------------------- */
+window.addEventListener('load', ()=> {
+  // nothing selected initially (wait for click)
+});
+
+/* keyboard: ESC to clear preview */
+document.addEventListener('keydown', (e)=> {
+  if(e.key === 'Escape'){
+    if(renderer){ renderer.setAnimationLoop(null); renderer.domElement && renderer.domElement.remove(); renderer=null; scene=null; camera=null; controls=null; previewGroup=null; }
+    document.getElementById('canvas-wrap').innerHTML = '<div id="placeholder" style="text-align:center;opacity:0.85"><div style="font-size:20px;color:var(--accent);font-weight:700">Wähle ein Element</div><div style="margin-top:8px;opacity:0.85">Vereinfachtes 3D-Atommodell (Nukleus + Elektronenschalen) erscheint hier</div></div>';
+    document.getElementById('elem-title').textContent = '—';
+    document.getElementById('elem-sub').textContent = '—';
+    document.getElementById('atom-mass').textContent = '—';
+    document.getElementById('atom-phase').textContent = '—';
+  }
+});
+</script>
+</body>
+</html>

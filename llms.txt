@@ -1,0 +1,18 @@
+# Rijad Kudumovic – Portfolio
+
+Personal portfolio of Rijad Kudumovic from Mellingen, Switzerland. The site presents his interests and experience in information technology, media design, web development, hardware and video editing.
+
+## Main page
+- https://www.rijad.ch/ — Profile, application video, skills, projects, practical experience and application documents available on request.
+
+## Selected projects
+- https://www.rijad.ch/MolekuelNT.html — Interactive learning project about molecules.
+- https://www.rijad.ch/Periodensystem.html — Interactive periodic table.
+- https://www.rijad.ch/PB%20FDP.html — Political education project.
+- https://www.rijad.ch/NT.html — Learning page about evolution and speciation.
+
+## External work
+- https://www.borntofight.ch — Website project for a Muay Thai gym.
+- https://www.10must.ch — Event website project.
+
+The site is written primarily in German and is intended for apprenticeship applications in Informatik and Mediamatik.

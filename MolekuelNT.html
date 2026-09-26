@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Moleküle interaktiv erklärt | Projekt von Rijad Kudumovic</title>
+<meta name="description" content="Interaktive Lernwebsite von Rijad Kudumovic über Moleküle, Beispiele und chemische Grundlagen.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#07111f">
+<link rel="canonical" href="https://www.rijad.ch/MolekuelNT.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="Moleküle interaktiv erklärt | Projekt von Rijad Kudumovic">
+<meta property="og:description" content="Interaktive Lernwebsite von Rijad Kudumovic über Moleküle, Beispiele und chemische Grundlagen.">
+<meta property="og:url" content="https://www.rijad.ch/MolekuelNT.html">
+<meta property="og:image" content="https://www.rijad.ch/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.rijad.ch/MolekuelNT.html#webpage","url":"https://www.rijad.ch/MolekuelNT.html","name":"Moleküle interaktiv erklärt","description":"Interaktive Lernwebsite von Rijad Kudumovic über Moleküle, Beispiele und chemische Grundlagen.","isPartOf":{"@id":"https://www.rijad.ch/#website"},"author":{"@id":"https://www.rijad.ch/#rijad"},"inLanguage":"de-CH"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Portfolio","item":"https://www.rijad.ch/"},{"@type":"ListItem","position":2,"name":"Projekte","item":"https://www.rijad.ch/#projekte"},{"@type":"ListItem","position":3,"name":"Moleküle interaktiv","item":"https://www.rijad.ch/MolekuelNT.html"}]}]}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0d1117; color: #e6edf3; overflow-x: hidden; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            width: 100%;
+            height: 70px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        nav a.logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a {
+            text-decoration: none;
+            color: #e6edf3;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover { color: #58a6ff; }
+
+        /* --- HERO SECTION --- */
+        header {
+            margin-top: 70px;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(140deg, #09131c, #122334);
+        }
+        header h1 {
+            font-size: 3.5rem;
+            animation: fadeInDown 1s ease forwards;
+        }
+        header p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-top: 20px;
+            animation: fadeInUp 1.5s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- INTERAKTIVE MOLEKÜLE --- */
+        .molecule-section {
+            padding: 100px 40px;
+        }
+        .molecule-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .item {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.4s ease, background 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .item:hover {
+            transform: translateY(-10px);
+            background: #1c2631;
+        }
+        .item img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .item h3 { margin-bottom: 10px; }
+
+        /* --- SCROLL ANIMATION --- */
+        .hidden { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+        .show { opacity: 1; transform: translateY(0); }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 100px;
+            padding: 40px;
+            text-align: center;
+            color: #aaa;
+            font-size: 1rem;
+        }
+    </style>
+<link rel="stylesheet" href="project-shell.css">
+</head>
+<body class="portfolio-project">
+<a class="project-skip" href="#main-content">Zum Inhalt springen</a>
+<nav class="project-portfolio-bar" aria-label="Portfolio-Navigation">
+  <a class="project-brand" href="index.html#projekte"><span class="project-brand__mark">RK</span><span>Rijad · Portfolio</span></a>
+  <ol class="project-breadcrumb"><li><a href="index.html">Portfolio</a></li><li><a href="index.html#projekte">Projekte</a></li><li><span aria-current="page">Moleküle interaktiv</span></li></ol>
+</nav>
+<span class="project-content-anchor" id="main-content" tabindex="-1"></span>
+
+    <nav>
+        <a class="logo" href="#">Moleküle</a>
+        <ul>
+            <li><a href="infosNT.html">Info</a></li>
+            <li><a href="Moleküle.html">Moleküle</a></li>
+            <li><a href="quizNT.html">Quiz</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Moleküle – Die Bausteine unserer Welt</h1>
+        <p>Hallo zusammen! Nathan und ich möchten euch unsere Webseite zeigen. Mit Animationen, Erklärungen und einer klaren Struktur lernt ihr chemische Verbindungen besser kennen.</p>
+    </header>
+
+    <section class="molecule-section hidden" id="molecules">
+        <h2>Molekül-Galerie</h2>
+
+        <div class="grid">
+            <div class="item">
+<img src="h20 bild.jpg" alt="Wasser Molekül" decoding="async" loading="lazy" width="1300" height="910">
+                <h3>H₂O – Wasser</h3>
+                <p>Das bekannteste Molekül – die Grundlage des Lebens.</p>
+            </div>
+
+            <div class="item">
+<img src="c20 bild.avif" alt="CO₂ Molekül" decoding="async" loading="lazy" width="753" height="424">
+                <h3>CO₂ – Kohlenstoffdioxid</h3>
+                <p>Ein wichtiges Gas im Klimasystem der Erde.</p>
+            </div>
+
+            <div class="item">
+<img src="ch4.png" alt="CH₄ Molekül" decoding="async" loading="lazy" width="560" height="515">
+                <h3>CH₄ – Methan</h3>
+                <p>Eines der stärksten Treibhausgase mit einfacher Struktur.</p>
+            </div>
+
+            <div class="item">
+<img src="o2 bild.jpg" alt="O₂ Molekül" decoding="async" loading="lazy" width="322" height="270">
+                <h3>O₂ – Sauerstoff</h3>
+                <p>Unverzichtbar für Atmung und Verbrennung.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>© 2025 Molekül-Projekt</footer>
+
+    <script>
+        const elements = document.querySelectorAll('.hidden');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        elements.forEach(el => observer.observe(el));
+    </script>
+<footer class="project-return">
+  <span>Teil des Portfolios von Rijad Kudumovic</span>
+  <a href="index.html#projekte">Zurück zu den Projekten →</a>
+</footer>
+</body>
+</html>
